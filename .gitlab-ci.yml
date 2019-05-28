@@ -1,0 +1,13 @@
+stages:
+  - test
+
+prettier:
+  image: node:8.15-alpine
+  stage: test
+  before_script:
+    - apk add --no-cache yarn
+    - yarn install
+  script:
+    - yarn format-test
+  tags:
+    - privileged
