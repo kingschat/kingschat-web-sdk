@@ -1,14 +1,14 @@
 {
-  "name": "generator-nod",
-  "version": "0.0.1",
-  "description": "My node module",
-  "license": "MIT",
-  "repository": "diegohaz/nod",
+  "name": "kingschat-web-sdk",
+  "version": "0.0.2",
+  "description": "KingsChat Web SDK",
+  "license": "ISC",
+  "repository": "kingschat/kingschat-web-sdk",
   "main": "dist/index.js",
   "author": {
-    "name": "Diego Haz",
-    "email": "hazdiego@gmail.com",
-    "url": "https://github.com/diegohaz"
+    "name": "kingschat",
+    "email": "support@joinkingschat.com",
+    "url": "https://github.com/kingschat"
   },
   "files": [
     "dist",
@@ -20,15 +20,14 @@
     "coverage": "npm test -- --coverage",
     "postcoverage": "opn coverage/lcov-report/index.html",
     "type-check": "tsc --noEmit",
-    "lint": "eslint . --ext js,ts,tsx",
-    "docs": "documentation readme src --section=API",
-    "postdocs": "git add README.md",
+    "lint": "eslint . --ext js,ts",
     "clean": "rimraf dist",
-    "prebuild": "npm run docs && npm run clean",
-    "build": "tsc --emitDeclarationOnly && babel src -d dist -x .js,.ts,.tsx",
-    "preversion": "npm run lint && npm test && npm run build",
-    "version": "standard-changelog && git add CHANGELOG.md",
-    "postpublish": "git push origin master --follow-tags"
+    "prebuild": "npm run clean",
+    "build": "tsc --emitDeclarationOnly && babel src -d dist -x .js,.ts --ignore \"**/*.test.ts\"",
+    "format": "npm run format:prettier ",
+    "format:prettier": "prettier --config .prettierrc \"src/**/*.{js,ts}\" --write",
+    "format-test": "npm run format-test:prettier",
+    "format-test:prettier": "prettier --config .prettierrc \"src/**/*.{js,ts}\" -l"
   },
   "husky": {
     "hooks": {
@@ -36,27 +35,30 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix --ext js,ts,tsx",
+    "*.{js,ts}": [
+      "eslint --fix --ext js,ts",
       "git add"
     ]
   },
   "keywords": [
-    "generator-nod"
+    "kingschat",
+    "sdk",
+    "web",
+    "login"
   ],
   "dependencies": {},
   "devDependencies": {
-    "@babel/cli": "7.2.3",
-    "@babel/core": "7.3.4",
+    "@babel/cli": "7.4.4",
+    "@babel/core": "7.4.5",
     "@babel/plugin-proposal-class-properties": "7.3.4",
     "@babel/preset-env": "7.3.4",
     "@babel/preset-typescript": "7.3.3",
     "@types/jest": "24.0.12",
+    "@types/rewire": "2.5.28",
     "@typescript-eslint/eslint-plugin": "1.9.0",
     "@typescript-eslint/parser": "1.9.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.1.0",
-    "documentation": "9.3.0",
     "eslint": "5.15.1",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-config-prettier": "4.1.0",
@@ -67,8 +69,8 @@
     "lint-staged": "8.1.5",
     "opn-cli": "4.0.0",
     "prettier": "1.16.4",
+    "rewire": "4.0.1",
     "rimraf": "2.6.3",
-    "standard-changelog": "2.0.7",
     "typescript": "3.4.5"
   }
 }
