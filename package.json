@@ -1,6 +1,6 @@
 {
   "name": "kingschat-web-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3-alpha-1",
   "description": "KingsChat Web SDK",
   "license": "ISC",
   "repository": "kingschat/kingschat-web-sdk",
@@ -11,10 +11,9 @@
     "url": "https://github.com/kingschat"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
-  "types": "dist/ts/src",
+  "types": "dist/ts/index.d.ts",
   "scripts": {
     "test": "jest",
     "coverage": "npm test -- --coverage",
@@ -23,7 +22,8 @@
     "lint": "eslint . --ext js,ts",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "build": "tsc --emitDeclarationOnly && babel src -d dist -x .js,.ts --ignore \"**/*.test.ts\"",
+    "build": "tsc --emitDeclarationOnly && babel src -d dist -x .js,.ts --copy-files",
+    "postbuild": "rimraf \"dist/**/*{test,test.d}.{js,ts}\"",
     "format": "npm run format:prettier ",
     "format:prettier": "prettier --config .prettierrc \"src/**/*.{js,ts}\" --write",
     "format-test": "npm run format-test:prettier",

@@ -55,6 +55,24 @@ This function call `callbackFunction` with `authTokenResponseI` interface as par
 
 Returns **any** nothing
 
+## Styles
+
+import **styles.min.css** in your project.
+For example in like that:
+```javascript
+import "kingschat-web-sdk/dist/stylesheets/style.min.css";
+```
+
+add some `a` element with one of the classes:
+-   `kc-web-sdk-btn` - for normal button
+-   `kc-web-sdk-btn-m` - for medium size button
+-   `kc-web-sdk-btn-s` - for small size button
+
+### Usage
+```html
+<a class="kc-web-sdk-btn"></a>
+```
+
 ## License
 
 ISC © [KingsChat](https://github.com/kingschat)
