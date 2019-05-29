@@ -17,7 +17,7 @@ describe('new window options', () => {
 describe('new window url', () => {
   const mockedUrl: URL = new URL('https://github.com/kingschat/kingschat-web-sdk');
   const mockedOptions: loginOptionsI = {
-    scopes: `["send_chat_message"]`,
+    scopes: ['send_chat_message'],
     clientId: '123abc00-abcd-1234-1234-123456789abc',
   };
 
@@ -57,7 +57,7 @@ describe('new window url', () => {
         newWindowUrl({
           myUrl: mockedUrl,
           options: {
-            scopes: `["send_chat_message"]`,
+            scopes: ['send_chat_message'],
           },
         });
       }).toThrowError(new Error('No "clientId" option provided'));

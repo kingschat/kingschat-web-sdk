@@ -1,6 +1,7 @@
 /* global window */
 import { authTokenResponseI, loginOptionsI, windowAreaI } from '../interfaces';
 import { allowedResponseOrigins } from '../constants';
+import { parseArrayToString } from './parse.utils';
 
 function newWindowOptions(): string {
   if (!window) throw new Error('No window defined');
@@ -28,7 +29,7 @@ function newWindowUrl({ myUrl, options }: { myUrl: URL; options: loginOptionsI }
 
   const url = new URL(myUrl.href);
   url.searchParams.append('client_id', options.clientId || '');
-  url.searchParams.append('scopes', options.scopes);
+  url.searchParams.append('scopes', parseArrayToString(options.scopes));
   url.searchParams.append('redirect_uri', window.location.origin);
   url.searchParams.append('post_message', '1');
   return url;
