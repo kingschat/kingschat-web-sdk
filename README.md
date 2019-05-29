@@ -14,12 +14,19 @@
 ## Table of Contents
 - [Installation](#instalation)
 - [Api](#api)
-  -   [login](#login)
-      - [login options interface](#loginoptions-interface)
-      - [authentication token response interface](#authtokenresponse-interface)
-  -   [refreshAuthToken](#refreshauthtoken)
-  -   [sendMessage](#sendmessage)
--   [Styles](#styles)
+  - [login](#login)
+    - [login options interface](#loginoptions-interface)
+    - [authentication token response interface](#authtokenresponse-interface)
+  - [refreshAuthToken](#refreshauthtoken)
+  - [sendMessage](#sendmessage)
+- [Styles](#styles)
+- [Usage](#usage)
+  - [Static Site](#static-site)
+  - [Webpack](#webpack)
+  - [Vue.js](#vuejs)
+  - [React](#react)
+  - [SASS / SCSS](#sass--scss)
+- [License](#license)
 
 ## Instalation
 
@@ -51,30 +58,30 @@ You have to pass your **callback function** and **login options**.
 You will get your clientId on [KingsChat's Developer Site](https://developer.kingsch.at/)
 
 ```javascript
+kingsChatWebSdk.login(callBackFunction, loginOptions);
+
+```
+
+where **callBackFunction** and **loginOptions**:
+ 
+```javascript
 const callBackFunction(authTokenResponse) {
-  // Token will include all fields from authTokenResponse Interface listed below
-  //
-  // accessToken: string;
-  // expiresInMillis: number;
-  // refreshToken: string;
-  //
-  // You should store KingsChat token somewere
+  // authTokenResponse will include all fields from authTokenResponse Interface listed below
+  // You should store KingsChat token somewhere
 }
 const loginOptions = {
   // login options must include all of loginOptions Interface fields
-  // Scopes is an Array of scopes you want access
   scopes: ["send_chat_message"],
-  // Your clientId generated on KingsChat's Developer Site
   clientId: 'a1234567-abcd-1234-abcd-12345abc1234'
 }
-
-kingsChatWebSdk.login(callBackFunction, loginOptions);
 ```
 
 ##### loginOptions Interface: 
 ```typescript
 interface loginOptionsI {
+  // Scopes is an Array of scopes you want access
   scopes: string;
+  // Your clientId generated on KingsChat's Developer Site
   clientId: string;
 }
 ```
@@ -82,8 +89,11 @@ interface loginOptionsI {
 ##### authTokenResponse Interface: 
 ```typescript
 interface authTokenResponseI {
+  // Access Token used for every KingsChat Request
   accessToken: string;
+  // time in milliseconds until token expires
   expiresInMillis: number;
+  // Refresh Token is used for refreshing Access Token
   refreshToken: string;
 }
 ```
@@ -99,17 +109,37 @@ This function call `callbackFunction` with `authTokenResponseI` interface as par
 
 ## Styles
 
-Import **styles.min.css** in your project. Styles are located in `kingschat-web-sdk/dist/stylesheets/style.min.css`
+Import **styles.min.css** in your project.
 
-Add some `a` element with one of the classes:
+If you installed package then our styles are located in `kingschat-web-sdk/dist/stylesheets/style.min.css`
+
+Alternatively you can add latest **stylesheet link** into html head: 
+```html
+<link rel="stylesheet" href="https://unpkg.com/kingschat-web-sdk/dist/stylesheets/style.min.css">
+``` 
+
+or specific version of it:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/kingschat-web-sdk@0.0.4/dist/stylesheets/style.min.css">
+``` 
+
+then add some `a` element with one of the classes:
 -   `kc-web-sdk-btn` - for normal button
 -   `kc-web-sdk-btn-m` - for medium size button
 -   `kc-web-sdk-btn-s` - for small size button
 
+```html
+<a class="kc-web-sdk-btn"></a>
+<a class="kc-web-sdk-btn-m"></a>
+<a class="kc-web-sdk-btn-s"></a>
+``` 
 
-#### Webpack
+## Usage
 
-inside main.js / main.ts
+### Webpack
+
+inside **main.js** / **main.ts**
 
 ```javascript
 import "kingschat-web-sdk/dist/stylesheets/style.min.css"
@@ -121,37 +151,90 @@ inside any HTML template
 
 ### Vue.js
 
-```vue.js
+inside **any component** or **App.vue**
+
+```vue
 <template>
   <a class="kc-web-sdk-btn" @click="loginWithKingschat"></a>
 </template>
+
+<script>
+import kingsChatWebSdk from "kingschat-web-sdk";
+
+export default {
+  methods: {
+    loginWithKingschat () {
+      kingsChatWebSdk.login(callbackFunc, options)
+    }
+  }
+}
+</script>
 
 <style src="kingschat-web-sdk/dist/stylesheets/style.min.css"></style>
 ```
 
-#### or
+or
 
-```vue.js
+```vue
 <template>
   <a class="kc-web-sdk-btn" @click="loginWithKingschat"></a>
 </template>
 <script>
+import kingsChatWebSdk from "kingschat-web-sdk";
 import "kingschat-web-sdk/dist/stylesheets/style.min.css"
+
+export default {
+  methods: {
+    loginWithKingschat () {
+      kingsChatWebSdk.login(callbackFunc, options)
+    }
+  }
+}
 </script>
 ```
 
 ### React
 
-```jsx harmony
+inside **any React component**
+
+```javascript
+import kingsChatWebSdk from "kingschat-web-sdk";
 import "kingschat-web-sdk/dist/stylesheets/style.min.css"
-class Button extends Component {
-  render() {
-    <a className="kc-web-sdk-btn" onClick={() => this.loginWithKingschat()} />
-  }
+
+function loginWithKingschat() {
+  kingsChatWebSdk.login(callbackFunc, options)
+}
+
+function KingsChatButton() {
+  return (
+    <a className="kc-web-sdk-btn" onClick={loginWithKingschat} />
+  );
 }
 ```
 
-### for SASS / SCSS
+### Angular
+
+inside  **any Angular component**
+
+```javascript
+import { Component } from "@angular/core";
+import kingsChatWebSdk from "kingschat-web-sdk";
+import "kingschat-web-sdk/dist/stylesheets/style.min.css";
+
+@Component({
+  template: `
+    <a class="kc-web-sdk-btn" (click)="loginWithKingschat()"></a>
+  `
+})
+export class customComponent {
+  loginWithKingschat() {
+    kingsChatWebSdk.login(callbackFunc, options)
+  }
+}
+
+```
+
+### SASS / SCSS
 
 ```scss
 @import "~kingschat-web-sdk/dist/stylesheets/style.min.css";
