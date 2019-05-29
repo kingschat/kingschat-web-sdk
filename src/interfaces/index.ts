@@ -1,6 +1,6 @@
 /* Options for a `kingschat-sdk-web.login` function */
 export interface loginOptionsI {
-  scopes: string;
+  scopes: Array<string>;
   clientId: string;
   env?: 'dev' | 'staging' | 'prod';
 }
