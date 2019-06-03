@@ -15,7 +15,6 @@ export interface authTokenResponseI {
 /* Params for a `kingschat-sdk-web.refreshAuthToken` function. */
 export interface refreshAuthTokenRequestI {
   clientId: string;
-  grantType: number;
   refreshToken: string;
 }
 

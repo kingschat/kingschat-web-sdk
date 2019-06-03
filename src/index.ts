@@ -4,18 +4,23 @@ import {
   refreshAuthTokenRequestI,
   sendMessageRequestI,
 } from './interfaces';
-import { validCallbackFunction } from './utils/check.utils';
+import {
+  validCallbackFunction,
+  validLoginOptions,
+  validRefreshAuthTokenRequestI,
+} from './utils/check.utils';
 import { loginWindow } from './utils/window.utils';
+import { refreshAuthTokenRequest } from './api/token.api';
 import { authorizationURLs } from './constants';
 /**
  * This function call `callbackFunction` with `authTokenResponseI` interface as param
  * @returns nothing
  * @param {function} callbackFunction
- * @param {loginOptionsI} options
+ * @param {loginOptionsI} loginOptions
  */
-export const login = (callbackFunction: Function, options: loginOptionsI) => {
-  if (validCallbackFunction(callbackFunction)) {
-    loginWindow(new URL(authorizationURLs[options.env || 'prod']), options)
+export const login = (callbackFunction: Function, loginOptions: loginOptionsI) => {
+  if (validCallbackFunction(callbackFunction) && validLoginOptions(loginOptions)) {
+    loginWindow(new URL(authorizationURLs[loginOptions.env || 'prod']), loginOptions)
       .then((data: authTokenResponseI) => {
         callbackFunction(data as authTokenResponseI);
       })
@@ -29,14 +34,22 @@ export const login = (callbackFunction: Function, options: loginOptionsI) => {
  * This function call `callbackFunction` with `authTokenResponseI` interface as param
  * @returns nothing
  * @param {function} callbackFunction
- * @param {refreshAuthTokenRequestI} requestData
+ * @param {refreshAuthTokenRequestI} refreshAuthTokenRequestData
  */
 export const refreshAuthToken = (
   callbackFunction: Function,
-  requestData: refreshAuthTokenRequestI
+  refreshAuthTokenRequestData: refreshAuthTokenRequestI
 ) => {
-  /* TODO now it's mockup */
-  callbackFunction(requestData.clientId);
+  if (
+    validCallbackFunction(callbackFunction) &&
+    validRefreshAuthTokenRequestI(refreshAuthTokenRequestData)
+  ) {
+    refreshAuthTokenRequest({ options: refreshAuthTokenRequestData }).then(
+      (payload: authTokenResponseI) => {
+        callbackFunction(payload as authTokenResponseI);
+      }
+    );
+  }
 };
 
 /**

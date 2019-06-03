@@ -19,7 +19,7 @@ describe('parsing utility', () => {
         expect(() => {
           // @ts-ignore
           parseScopesArrayToString(item);
-        }).toThrowError(new Error(`scopes are type of ${typeof item} instead of Array`));
+        }).toThrowError(new Error(`scopes is type of ${typeof item} instead of Array`));
       });
     });
 
@@ -29,7 +29,28 @@ describe('parsing utility', () => {
       notDefinedTestData.forEach(item => {
         expect(() => {
           parseScopesArrayToString(item);
-        }).toThrowError(new Error('scopes are not defined!'));
+        }).toThrowError(new Error('scopes array is not defined!'));
+      });
+    });
+
+    it('should refuse to parse any Array filled with defined not strings or undefined values', () => {
+      const testData: Array<any> = [
+        { object: true },
+        true,
+        12,
+        12.34,
+        0x123,
+        new Error('123abc'),
+        function() {},
+        null,
+        undefined,
+        false,
+      ];
+      testData.forEach(item => {
+        expect(() => {
+          // @ts-ignore
+          parseScopesArrayToString([item]);
+        }).toThrowError(new Error(`scope ${item}, at index 0 is not string!`));
       });
     });
 

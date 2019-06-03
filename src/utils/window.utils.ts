@@ -4,7 +4,7 @@ import { allowedResponseOrigins } from '../constants';
 import { parseScopesArrayToString } from './parse.utils';
 
 function newWindowOptions(): string {
-  if (!window) throw new Error('No window defined');
+  if (!window) throw Error('No window defined');
   const windowArea: windowAreaI = {
     width: Math.min(Math.floor(window.outerWidth * 0.9), 950),
     height: Math.min(Math.floor(window.outerHeight * 0.9), 600),
@@ -22,11 +22,6 @@ function newWindowOptions(): string {
 }
 
 function newWindowUrl({ myUrl, options }: { myUrl: URL; options: loginOptionsI }): URL {
-  if (!myUrl) throw new Error('No url provided');
-  if (!options) throw new Error('No options provided');
-  if (!options.scopes) throw new Error('No "scopes" option provided');
-  if (!options.clientId) throw new Error('No "clientId" option provided');
-
   const url = new URL(myUrl.href);
   url.searchParams.append('client_id', options.clientId || '');
   url.searchParams.append('scopes', parseScopesArrayToString(options.scopes));
