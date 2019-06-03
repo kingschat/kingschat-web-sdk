@@ -129,6 +129,7 @@ then add some `a` element with one of the classes:
 -   `kc-web-sdk-btn-m` - for medium size button
 -   `kc-web-sdk-btn-s` - for small size button
 
+![](https://appunite-blog.s3.eu-central-1.amazonaws.com/images/05efdffc/1935/Image%202019-05-29%20at%203.02.40%20PM.png)
 ```html
 <a class="kc-web-sdk-btn"></a>
 <a class="kc-web-sdk-btn-m"></a>
