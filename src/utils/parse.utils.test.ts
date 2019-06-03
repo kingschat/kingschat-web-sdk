@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import { parseArrayToString } from './parse.utils';
+import { parseScopesArrayToString } from './parse.utils';
 
 describe('parsing utility', () => {
   describe('array to string', () => {
@@ -18,10 +18,8 @@ describe('parsing utility', () => {
       definedTestData.forEach(item => {
         expect(() => {
           // @ts-ignore
-          parseArrayToString(item);
-        }).toThrowError(
-          new Error(`callbackFunction is type of ${typeof item} instead of Array`)
-        );
+          parseScopesArrayToString(item);
+        }).toThrowError(new Error(`scopes are type of ${typeof item} instead of Array`));
       });
     });
 
@@ -30,21 +28,21 @@ describe('parsing utility', () => {
 
       notDefinedTestData.forEach(item => {
         expect(() => {
-          parseArrayToString(item);
-        }).toThrowError(new Error('arrayToParse is not defined!'));
+          parseScopesArrayToString(item);
+        }).toThrowError(new Error('scopes are not defined!'));
       });
     });
 
     it('should parse empty array to string', () => {
-      expect(parseArrayToString([])).toBe('[]');
+      expect(parseScopesArrayToString([])).toBe('[]');
     });
 
     it('should parse array with one element to string', () => {
-      expect(parseArrayToString(['test'])).toBe('["test"]');
+      expect(parseScopesArrayToString(['test'])).toBe('["test"]');
     });
 
     it('should parse array with many element to string', () => {
-      expect(parseArrayToString(['test', 'test1', 'test2'])).toBe(
+      expect(parseScopesArrayToString(['test', 'test1', 'test2'])).toBe(
         '["test", "test1", "test2"]'
       );
     });

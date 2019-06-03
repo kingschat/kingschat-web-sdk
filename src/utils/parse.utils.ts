@@ -1,4 +1,4 @@
-export const parseArrayToString = (arrayToParse: Array<string>) => {
+export const parseScopesArrayToString = (arrayToParse: Array<string>) => {
   if (!arrayToParse) {
     throw Error('arrayToParse is not defined!');
   } else if (!Array.isArray(arrayToParse)) {
@@ -19,5 +19,5 @@ export const parseArrayToString = (arrayToParse: Array<string>) => {
 };
 
 export default {
-  parseArrayToString,
+  parseScopesArrayToString,
 };
