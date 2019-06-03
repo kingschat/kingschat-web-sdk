@@ -4,14 +4,15 @@
 
 ## Stack
 
--   [**Babel**](https://babeljs.io/) - Write next generation JavaScript today.
--   [**Jest**](https://facebook.github.io/jest) - JavaScript testing framework used by Facebook.
--   [**ESLint**](http://eslint.org/) - Make sure you are writing a quality code.
--   [**Prettier**](https://prettier.io/) - Enforces a consistent style by parsing your code and re-printing it.
--   [**TypeScript**](https://www.typescriptlang.org/) - Typed superset of JavaScript that compiles to plain JavaScript.
--   [**Travis CI**](https://travis-ci.org) - Automate tests and linting for every push or pull request.
+- [**Babel**](https://babeljs.io/) - Write next generation JavaScript today.
+- [**Jest**](https://facebook.github.io/jest) - JavaScript testing framework used by Facebook.
+- [**ESLint**](http://eslint.org/) - Make sure you are writing a quality code.
+- [**Prettier**](https://prettier.io/) - Enforces a consistent style by parsing your code and re-printing it.
+- [**TypeScript**](https://www.typescriptlang.org/) - Typed superset of JavaScript that compiles to plain JavaScript.
+- [**Travis CI**](https://travis-ci.org) - Automate tests and linting for every push or pull request.
 
 ## Table of Contents
+
 - [Installation](#instalation)
 - [Api](#api)
   - [login](#login)
@@ -31,6 +32,7 @@
 ## Instalation
 
 ### NPM
+
 Install our node module using npm
 
 ```bash
@@ -46,47 +48,36 @@ yarn add kingschat-web-sdk --dev
 ## API
 
 ```javascript
-import kingsChatWebSdk from "kingschat-web-sdk";
+import kingsChatWebSdk from 'kingschat-web-sdk';
 ```
-
 
 ### login
 
 Use this function to get KingsChat's authenticate code, that you will need for any KingsChat request.
-You have to pass your **callback function** and **login options**.
+You have to pass your **callback function** and [login options](#loginoptions-interface).
+
+After user login and allowing permission, your **callback function** will be called with [authTokenResponse](#authtokenresponse-interface) payload.
+Make sure to store these tokens in your application for later use.
 
 You will get your clientId on [KingsChat's Developer Site](https://developer.kingsch.at/)
 
 ```javascript
 kingsChatWebSdk.login(callBackFunction, loginOptions);
-
 ```
 
-where **callBackFunction** and **loginOptions**:
- 
-```javascript
-const callBackFunction(authTokenResponse) {
-  // authTokenResponse will include all fields from authTokenResponse Interface listed below
-  // You should store KingsChat token somewhere
-}
-const loginOptions = {
-  // login options must include all of loginOptions Interface fields
-  scopes: ["send_chat_message"],
-  clientId: 'a1234567-abcd-1234-abcd-12345abc1234'
-}
-```
+#### loginOptions Interface:
 
-##### loginOptions Interface: 
 ```typescript
 interface loginOptionsI {
   // Scopes is an Array of scopes you want access
-  scopes: string;
+  scopes: string; // ex. ["send_chat_message"]
   // Your clientId generated on KingsChat's Developer Site
-  clientId: string;
+  clientId: string; // ex. 'a1234567-abcd-1234-abcd-12345abc1234'
 }
 ```
 
-##### authTokenResponse Interface: 
+#### authTokenResponse Interface:
+
 ```typescript
 interface authTokenResponseI {
   // Access Token used for every KingsChat Request
@@ -100,12 +91,28 @@ interface authTokenResponseI {
 
 ### refreshAuthToken
 
-This function call `callbackFunction` with `authTokenResponseI` interface as param
+Use this function to refresh / get KingsChat's authenticate code again.
+You have to pass your **callback function** and [refreshAuthTokenRequestData](#refreshauthtokenrequestdata-interface).
 
-### sendMessage
+In return your **callback function** will be called with [authTokenResponse](#authtokenresponse-interface) payload.
+Make sure to store these tokens in your application for later use.
 
-This function call `callbackFunction` with `authTokenResponseI` interface as param
+```javascript
+kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+```
 
+#### refreshAuthTokenRequestData Interface:
+
+```typescript
+interface refreshAuthTokenRequestI {
+  // Your clientId generated on KingsChat's Developer Site
+  clientId: string; // ex. 'a1234567-abcd-1234-abcd-12345abc1234'
+  // Refresh token you got from login function
+  refreshToken: string;
+}
+```
+
+### sendMessage - WIP
 
 ## Styles
 
@@ -113,28 +120,37 @@ Import **styles.min.css** in your project.
 
 If you installed package then our styles are located in `kingschat-web-sdk/dist/stylesheets/style.min.css`
 
-Alternatively you can add latest **stylesheet link** into html head: 
+Alternatively you can add latest **stylesheet link** into html head:
+
 ```html
-<link rel="stylesheet" href="https://unpkg.com/kingschat-web-sdk/dist/stylesheets/style.min.css">
-``` 
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/kingschat-web-sdk/dist/stylesheets/style.min.css"
+/>
+```
 
 or specific version of it:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/kingschat-web-sdk@0.0.4/dist/stylesheets/style.min.css">
-``` 
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/kingschat-web-sdk@0.0.5/dist/stylesheets/style.min.css"
+/>
+```
 
 then add some `a` element with one of the classes:
--   `kc-web-sdk-btn` - for normal button
--   `kc-web-sdk-btn-m` - for medium size button
--   `kc-web-sdk-btn-s` - for small size button
+
+- `kc-web-sdk-btn` - for normal button
+- `kc-web-sdk-btn-m` - for medium size button
+- `kc-web-sdk-btn-s` - for small size button
 
 ![](https://appunite-blog.s3.eu-central-1.amazonaws.com/images/05efdffc/1935/Image%202019-05-29%20at%203.02.40%20PM.png)
+
 ```html
 <a class="kc-web-sdk-btn"></a>
 <a class="kc-web-sdk-btn-m"></a>
 <a class="kc-web-sdk-btn-s"></a>
-``` 
+```
 
 ## Usage
 
@@ -143,9 +159,11 @@ then add some `a` element with one of the classes:
 inside **main.js** / **main.ts**
 
 ```javascript
-import "kingschat-web-sdk/dist/stylesheets/style.min.css"
+import 'kingschat-web-sdk/dist/stylesheets/style.min.css';
 ```
+
 inside any HTML template
+
 ```html
 <a class="kc-web-sdk-btn"></a>
 ```
@@ -156,19 +174,25 @@ inside **any component** or **App.vue**
 
 ```vue
 <template>
-  <a class="kc-web-sdk-btn" @click="loginWithKingschat"></a>
+  <a class="kc-web-sdk-btn" @click="loginWithKingsChat"></a>
 </template>
 
 <script>
-import kingsChatWebSdk from "kingschat-web-sdk";
+import kingsChatWebSdk from 'kingschat-web-sdk';
 
 export default {
   methods: {
-    loginWithKingschat () {
-      kingsChatWebSdk.login(callbackFunc, options)
+    loginWithKingsChat() {
+      kingsChatWebSdk.login(callbackFunc, options);
+    },
+    refreshKingsChatAuthToken() {
+      kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+    },
+    callbackFunc(authTokenResponse) {
+      //...
     }
-  }
-}
+  },
+};
 </script>
 
 <style src="kingschat-web-sdk/dist/stylesheets/style.min.css"></style>
@@ -178,19 +202,25 @@ or
 
 ```vue
 <template>
-  <a class="kc-web-sdk-btn" @click="loginWithKingschat"></a>
+  <a class="kc-web-sdk-btn" @click="loginWithKingsChat"></a>
 </template>
 <script>
-import kingsChatWebSdk from "kingschat-web-sdk";
-import "kingschat-web-sdk/dist/stylesheets/style.min.css"
+import kingsChatWebSdk from 'kingschat-web-sdk';
+import 'kingschat-web-sdk/dist/stylesheets/style.min.css';
 
 export default {
   methods: {
-    loginWithKingschat () {
-      kingsChatWebSdk.login(callbackFunc, options)
+    loginWithKingsChat() {
+      kingsChatWebSdk.login(callbackFunc, options);
+    },
+    refreshKingsChatAuthToken() {
+      kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+    },
+    callbackFunc(authTokenResponse) {
+      //...
     }
-  }
-}
+  },
+};
 </script>
 ```
 
@@ -199,46 +229,55 @@ export default {
 inside **any React component**
 
 ```javascript
-import kingsChatWebSdk from "kingschat-web-sdk";
-import "kingschat-web-sdk/dist/stylesheets/style.min.css"
+import kingsChatWebSdk from 'kingschat-web-sdk';
+import 'kingschat-web-sdk/dist/stylesheets/style.min.css';
 
-function loginWithKingschat() {
-  kingsChatWebSdk.login(callbackFunc, options)
+function loginWithKingsChat() {
+  kingsChatWebSdk.login(callbackFunc, options);
+}
+function refreshKingsChatAuthToken() {
+  kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+}
+function callbackFunc(authTokenResponse) {
+  //...
 }
 
-function KingsChatButton() {
-  return (
-    <a className="kc-web-sdk-btn" onClick={loginWithKingschat} />
-  );
+export function KingsChatButton() {
+  return <a className="kc-web-sdk-btn" onClick={loginWithKingsChat} />;
 }
 ```
 
 ### Angular
 
-inside  **any Angular component**
+inside **any Angular component**
 
 ```javascript
-import { Component } from "@angular/core";
-import kingsChatWebSdk from "kingschat-web-sdk";
-import "kingschat-web-sdk/dist/stylesheets/style.min.css";
+import { Component } from '@angular/core';
+import kingsChatWebSdk from 'kingschat-web-sdk';
+import 'kingschat-web-sdk/dist/stylesheets/style.min.css';
 
 @Component({
   template: `
-    <a class="kc-web-sdk-btn" (click)="loginWithKingschat()"></a>
-  `
+    <a class="kc-web-sdk-btn" (click)="loginWithKingsChat()"></a>
+  `,
 })
 export class customComponent {
-  loginWithKingschat() {
-    kingsChatWebSdk.login(callbackFunc, options)
+  loginWithKingsChat() {
+    kingsChatWebSdk.login(callbackFunc, options);
+  }
+  refreshKingsChatAuthToken() {
+    kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+  }
+  callbackFunc(authTokenResponse) {
+    //...
   }
 }
-
 ```
 
 ### SASS / SCSS
 
 ```scss
-@import "~kingschat-web-sdk/dist/stylesheets/style.min.css";
+@import '~kingschat-web-sdk/dist/stylesheets/style.min.css';
 ```
 
 ## License

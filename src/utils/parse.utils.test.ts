@@ -59,12 +59,14 @@ describe('parsing utility', () => {
     });
 
     it('should parse array with one element to string', () => {
-      expect(parseScopesArrayToString(['test'])).toBe('["test"]');
+      expect(parseScopesArrayToString(['send_chat_message'])).toBe(
+        '["send_chat_message"]'
+      );
     });
 
     it('should parse array with many element to string', () => {
-      expect(parseScopesArrayToString(['test', 'test1', 'test2'])).toBe(
-        '["test", "test1", "test2"]'
+      expect(parseScopesArrayToString(['send_chat_message', 'test1', 'test2'])).toBe(
+        '["send_chat_message", "test1", "test2"]'
       );
     });
   });

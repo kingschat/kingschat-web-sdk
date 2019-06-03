@@ -41,11 +41,79 @@ describe('valid callback as a function', () => {
 });
 
 describe('valid requestAuthTokenRequest as a refreshAuthTokenRequestI', () => {
+  const requestAuthTokenRequest: refreshAuthTokenRequestI = {
+    refreshToken: `GEA/fENK+cUC5ggLQNiLiIsovOo5OYaNSW/ss+6KyVo=`,
+    clientId: 'a1234567-abcd-1234-abcd-12345abc1234',
+  };
   it('should return true for valid data', () => {
-    const requestAuthTokenRequest: refreshAuthTokenRequestI = {
-      refreshToken: `GEJ/fENK+cUC5ggLQNiLiIsovOo5OYaNSW/ss+6KyVo=`,
-      clientId: 'e47a90db-f2a6-4690-91a6-c3e5420a27d9',
-    };
     expect(validRefreshAuthTokenRequestI(requestAuthTokenRequest)).toBe(true);
+  });
+
+  it('should throw an Error for non strings defined clientId', () => {
+    const definedTestData: Array<any> = [
+      { object: true },
+      ['array'],
+      true,
+      12,
+      12.34,
+      0x123,
+      Symbol('abc'),
+      new Error('123abc'),
+    ];
+    definedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validRefreshAuthTokenRequestI({ clientId: item });
+      }).toThrowError(new Error(`clientId is type of ${typeof item} instead of string`));
+    });
+  });
+
+  it('should throw an Error for not defined types & false boolean clientId', () => {
+    const notDefinedTestData: Array<any> = [null, undefined, false];
+
+    notDefinedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validRefreshAuthTokenRequestI({ clientId: item });
+      }).toThrowError(new Error('clientId is not defined!'));
+    });
+  });
+
+  it('should throw an Error for non strings defined refreshToken', () => {
+    const definedTestData: Array<any> = [
+      { object: true },
+      ['array'],
+      true,
+      12,
+      12.34,
+      0x123,
+      Symbol('abc'),
+      new Error('123abc'),
+    ];
+    definedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validRefreshAuthTokenRequestI({
+          clientId: requestAuthTokenRequest.clientId,
+          refreshToken: item,
+        });
+      }).toThrowError(
+        new Error(`refreshToken is type of ${typeof item} instead of string`)
+      );
+    });
+  });
+
+  it('should throw an Error for not defined types & false boolean refreshToken', () => {
+    const notDefinedTestData: Array<any> = [null, undefined, false];
+
+    notDefinedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validRefreshAuthTokenRequestI({
+          clientId: requestAuthTokenRequest.clientId,
+          refreshToken: item,
+        });
+      }).toThrowError(new Error('refreshToken is not defined!'));
+    });
   });
 });
