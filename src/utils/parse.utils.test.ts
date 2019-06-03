@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import { parseArrayToString } from './parse.utils';
+import { parseScopesArrayToString } from './parse.utils';
 
 describe('parsing utility', () => {
   describe('array to string', () => {
@@ -18,10 +18,8 @@ describe('parsing utility', () => {
       definedTestData.forEach(item => {
         expect(() => {
           // @ts-ignore
-          parseArrayToString(item);
-        }).toThrowError(
-          new Error(`callbackFunction is type of ${typeof item} instead of Array`)
-        );
+          parseScopesArrayToString(item);
+        }).toThrowError(new Error(`scopes is type of ${typeof item} instead of Array`));
       });
     });
 
@@ -30,22 +28,45 @@ describe('parsing utility', () => {
 
       notDefinedTestData.forEach(item => {
         expect(() => {
-          parseArrayToString(item);
-        }).toThrowError(new Error('arrayToParse is not defined!'));
+          parseScopesArrayToString(item);
+        }).toThrowError(new Error('scopes array is not defined!'));
+      });
+    });
+
+    it('should refuse to parse any Array filled with defined not strings or undefined values', () => {
+      const testData: Array<any> = [
+        { object: true },
+        true,
+        12,
+        12.34,
+        0x123,
+        new Error('123abc'),
+        function() {},
+        null,
+        undefined,
+        false,
+      ];
+      testData.forEach(item => {
+        expect(() => {
+          // @ts-ignore
+          parseScopesArrayToString([item]);
+        }).toThrowError(new Error(`scope ${item}, at index 0 is not string!`));
       });
     });
 
     it('should parse empty array to string', () => {
-      expect(parseArrayToString([])).toBe('[]');
+      expect(parseScopesArrayToString([])).toBe('[]');
     });
 
     it('should parse array with one element to string', () => {
-      expect(parseArrayToString(['test'])).toBe('["test"]');
+      expect(parseScopesArrayToString(['send_chat_message'])).toBe(
+        '["send_chat_message"]'
+      );
     });
 
     it('should parse array with many element to string', () => {
-      expect(parseArrayToString(['test', 'test1', 'test2'])).toBe(
-        '["test", "test1", "test2"]'
+      expect(parseScopesArrayToString(['send_chat_message', 'test1', 'test2'])).toBe(
+        '["send_chat_message", "test1", "test2"]'
       );
     });
   });
