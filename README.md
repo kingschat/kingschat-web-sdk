@@ -116,6 +116,27 @@ interface refreshAuthTokenRequestI {
 
 ### sendMessage - WIP
 
+
+Use this function to send text message to KingsChat user as user you logged on with [login function](#login)
+You have to pass your **callback function** and [messageData](#messagedata-interface) including **access token**.
+
+In return your **callback function** will be called after successfully sent message.
+
+
+```javascript
+kingsChatWebSdk.sendMessage(callBackFunction, messageData);
+```
+
+#### messageData Interface:
+
+```typescript
+interface messageRequestI {
+  message: string; // Message you want to send to KingsChat user
+  userIdentifier: string; // You have to know KingsChat userId 
+  accessToken: string; // You got that from login / refresh function
+}
+```
+
 ## Styles
 
 Import **styles.min.css** in your project.

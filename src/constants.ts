@@ -10,7 +10,14 @@ export const allowedResponseOrigins: Array<string> = [
   'https://accounts.kingsch.at', // Production
 ];
 
+export const kingsChatApiPaths = {
+  dev: 'http://localhost:8000' as string, // Development
+  staging: 'https://kc-connect.appunite.com' as string, // Staging ENV
+  prod: 'https://connect.kingsch.at' as string, // Production ENV
+};
+
 export default {
   authorizationURLs,
   allowedResponseOrigins,
+  kingsChatApiPaths,
 };

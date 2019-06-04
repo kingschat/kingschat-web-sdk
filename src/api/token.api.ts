@@ -1,11 +1,14 @@
-import { authTokenResponseI, refreshAuthTokenRequestI } from '../interfaces';
+import { env, authTokenResponseI, refreshAuthTokenRequestI } from '../interfaces';
+import { kingsChatApiPaths } from '../constants';
 
 export const refreshAuthTokenRequest = ({
   options,
+  environment = 'prod',
 }: {
   options: refreshAuthTokenRequestI;
+  environment?: env;
 }): Promise<authTokenResponseI> => {
-  return fetch('https://kc-connect.appunite.com/oauth2/token', {
+  return fetch(`${kingsChatApiPaths[environment]}/oauth2/token`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

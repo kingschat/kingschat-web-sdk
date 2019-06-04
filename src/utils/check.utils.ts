@@ -1,4 +1,4 @@
-import { loginOptionsI, refreshAuthTokenRequestI } from '../interfaces';
+import { loginOptionsI, messageRequestI, refreshAuthTokenRequestI } from '../interfaces';
 
 export const validCallbackFunction = (callbackFunction: Function): boolean => {
   if (!callbackFunction) {
@@ -7,9 +7,9 @@ export const validCallbackFunction = (callbackFunction: Function): boolean => {
     throw Error(
       `callbackFunction is type of ${typeof callbackFunction} instead of function`
     );
-  } else {
-    return true;
   }
+
+  return true;
 };
 
 export const validLoginOptions = (loginOptions: loginOptionsI): boolean => {
@@ -24,32 +24,55 @@ export const validLoginOptions = (loginOptions: loginOptionsI): boolean => {
   } else if (typeof loginOptions.clientId !== 'string') {
     throw Error(`clientId is type of ${typeof loginOptions.clientId} instead of string`);
   }
-  const allowedEnv = ['dev', 'staging', 'prod'];
-  if (loginOptions.env && !allowedEnv.includes(loginOptions.env)) {
-    throw Error(`env can only be one of: "dev", "staging", "prod"`);
-  }
 
   return true;
 };
 
 export const validRefreshAuthTokenRequestI = (
-  requestAuthTokenRequest: refreshAuthTokenRequestI
+  refreshAuthTokenRequest: refreshAuthTokenRequestI
 ): boolean => {
-  if (!requestAuthTokenRequest.clientId) {
+  if (!refreshAuthTokenRequest.clientId) {
     throw Error('clientId is not defined!');
-  } else if (typeof requestAuthTokenRequest.clientId !== 'string') {
+  } else if (typeof refreshAuthTokenRequest.clientId !== 'string') {
     throw Error(
-      `clientId is type of ${typeof requestAuthTokenRequest.clientId} instead of string`
+      `clientId is type of ${typeof refreshAuthTokenRequest.clientId} instead of string`
     );
   }
 
-  if (!requestAuthTokenRequest.refreshToken) {
+  if (!refreshAuthTokenRequest.refreshToken) {
     throw Error('refreshToken is not defined!');
-  } else if (typeof requestAuthTokenRequest.refreshToken !== 'string') {
+  } else if (typeof refreshAuthTokenRequest.refreshToken !== 'string') {
     throw Error(
-      `refreshToken is type of ${typeof requestAuthTokenRequest.refreshToken} instead of string`
+      `refreshToken is type of ${typeof refreshAuthTokenRequest.refreshToken} instead of string`
     );
   }
+
+  return true;
+};
+
+export const validMessageRequestI = (messageData: messageRequestI): boolean => {
+  if (!messageData.message) {
+    throw Error('message is not defined!');
+  } else if (typeof messageData.message !== 'string') {
+    throw Error(`message is type of ${typeof messageData.message} instead of string`);
+  }
+
+  if (!messageData.accessToken) {
+    throw Error('accessToken is not defined!');
+  } else if (typeof messageData.accessToken !== 'string') {
+    throw Error(
+      `accessToken is type of ${typeof messageData.accessToken} instead of string`
+    );
+  }
+
+  if (!messageData.userIdentifier) {
+    throw Error('userIdentifier is not defined!');
+  } else if (typeof messageData.userIdentifier !== 'string') {
+    throw Error(
+      `userIdentifier is type of ${typeof messageData.userIdentifier} instead of string`
+    );
+  }
+
   return true;
 };
 
@@ -57,4 +80,5 @@ export default {
   validCallbackFunction,
   validLoginOptions,
   validRefreshAuthTokenRequestI,
+  validMessageRequestI,
 };
