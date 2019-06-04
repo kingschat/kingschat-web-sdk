@@ -40,13 +40,13 @@ describe('valid callback as a function', () => {
   });
 });
 
-describe('valid requestAuthTokenRequest as a refreshAuthTokenRequestI', () => {
-  const requestAuthTokenRequest: refreshAuthTokenRequestI = {
+describe('valid refreshAuthTokenRequest as a refreshAuthTokenRequestI', () => {
+  const refreshAuthTokenRequest: refreshAuthTokenRequestI = {
     refreshToken: `GEA/fENK+cUC5ggLQNiLiIsovOo5OYaNSW/ss+6KyVo=`,
     clientId: 'a1234567-abcd-1234-abcd-12345abc1234',
   };
   it('should return true for valid data', () => {
-    expect(validRefreshAuthTokenRequestI(requestAuthTokenRequest)).toBe(true);
+    expect(validRefreshAuthTokenRequestI(refreshAuthTokenRequest)).toBe(true);
   });
 
   it('should throw an Error for non strings defined clientId', () => {
@@ -94,7 +94,7 @@ describe('valid requestAuthTokenRequest as a refreshAuthTokenRequestI', () => {
       expect(() => {
         // @ts-ignore
         validRefreshAuthTokenRequestI({
-          clientId: requestAuthTokenRequest.clientId,
+          clientId: refreshAuthTokenRequest.clientId,
           refreshToken: item,
         });
       }).toThrowError(
@@ -110,7 +110,7 @@ describe('valid requestAuthTokenRequest as a refreshAuthTokenRequestI', () => {
       expect(() => {
         // @ts-ignore
         validRefreshAuthTokenRequestI({
-          clientId: requestAuthTokenRequest.clientId,
+          clientId: refreshAuthTokenRequest.clientId,
           refreshToken: item,
         });
       }).toThrowError(new Error('refreshToken is not defined!'));

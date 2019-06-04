@@ -1,8 +1,9 @@
 import {
+  env,
   loginOptionsI,
   authTokenResponseI,
   refreshAuthTokenRequestI,
-  sendMessageRequestI,
+  messageRequestI,
 } from './interfaces';
 import {
   validCallbackFunction,
@@ -17,10 +18,15 @@ import { authorizationURLs } from './constants';
  * @returns nothing
  * @param {function} callbackFunction
  * @param {loginOptionsI} loginOptions
+ * @param {env} environment - optional environment change
  */
-export const login = (callbackFunction: Function, loginOptions: loginOptionsI) => {
+export const login = (
+  callbackFunction: Function,
+  loginOptions: loginOptionsI,
+  environment?: env
+) => {
   if (validCallbackFunction(callbackFunction) && validLoginOptions(loginOptions)) {
-    loginWindow(new URL(authorizationURLs[loginOptions.env || 'prod']), loginOptions)
+    loginWindow(new URL(authorizationURLs[environment || 'prod']), loginOptions)
       .then((data: authTokenResponseI) => {
         callbackFunction(data as authTokenResponseI);
       })
@@ -35,16 +41,18 @@ export const login = (callbackFunction: Function, loginOptions: loginOptionsI) =
  * @returns nothing
  * @param {function} callbackFunction
  * @param {refreshAuthTokenRequestI} refreshAuthTokenRequestData
+ * @param {env} environment - optional environment change
  */
 export const refreshAuthToken = (
   callbackFunction: Function,
-  refreshAuthTokenRequestData: refreshAuthTokenRequestI
+  refreshAuthTokenRequestData: refreshAuthTokenRequestI,
+  environment?: env
 ) => {
   if (
     validCallbackFunction(callbackFunction) &&
     validRefreshAuthTokenRequestI(refreshAuthTokenRequestData)
   ) {
-    refreshAuthTokenRequest({ options: refreshAuthTokenRequestData }).then(
+    refreshAuthTokenRequest({ options: refreshAuthTokenRequestData, environment }).then(
       (payload: authTokenResponseI) => {
         callbackFunction(payload as authTokenResponseI);
       }

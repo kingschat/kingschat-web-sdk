@@ -1,8 +1,8 @@
-/* Options for a `kingschat-sdk-web.login` function */
+export type env = 'dev' | 'staging' | 'prod';
+
 export interface loginOptionsI {
   scopes: Array<string>;
   clientId: string;
-  env?: 'dev' | 'staging' | 'prod';
 }
 
 /* Params for callbackFunctions on `kingschat-sdk-web.login` & `kingschat-sdk-web.refreshAuthToken` functions. */
