@@ -50,8 +50,35 @@ export const validRefreshAuthTokenRequestI = (
   return true;
 };
 
+export const validMessageRequestI = (messageData: messageRequestI): boolean => {
+  if (!messageData.message) {
+    throw Error('message is not defined!');
+  } else if (typeof messageData.message !== 'string') {
+    throw Error(`message is type of ${typeof messageData.message} instead of string`);
+  }
+
+  if (!messageData.accessToken) {
+    throw Error('accessToken is not defined!');
+  } else if (typeof messageData.accessToken !== 'string') {
+    throw Error(
+      `accessToken is type of ${typeof messageData.accessToken} instead of string`
+    );
+  }
+
+  if (!messageData.userIdentifier) {
+    throw Error('userIdentifier is not defined!');
+  } else if (typeof messageData.userIdentifier !== 'string') {
+    throw Error(
+      `userIdentifier is type of ${typeof messageData.userIdentifier} instead of string`
+    );
+  }
+
+  return true;
+};
+
 export default {
   validCallbackFunction,
   validLoginOptions,
   validRefreshAuthTokenRequestI,
+  validMessageRequestI,
 };

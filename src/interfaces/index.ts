@@ -19,7 +19,7 @@ export interface refreshAuthTokenRequestI {
 }
 
 /* Params for a `kingschat-sdk-web.sendMessage` function. */
-export interface sendMessageRequestI {
+export interface messageRequestI {
   message: string;
   userIdentifier: string;
   accessToken: string;

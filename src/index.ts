@@ -9,9 +9,11 @@ import {
   validCallbackFunction,
   validLoginOptions,
   validRefreshAuthTokenRequestI,
+  validMessageRequestI,
 } from './utils/check.utils';
 import { loginWindow } from './utils/window.utils';
 import { refreshAuthTokenRequest } from './api/token.api';
+import { messageRequest } from './api/message.api';
 import { authorizationURLs } from './constants';
 /**
  * This function call `callbackFunction` with `authTokenResponseI` interface as param
@@ -61,17 +63,22 @@ export const refreshAuthToken = (
 };
 
 /**
- * This function call `callbackFunction` with `authTokenResponseI` interface as param
+ * This function call `callbackFunction` on success
  * @returns nothing
  * @param {function} callbackFunction
- * @param {sendMessageRequestI} messageData
+ * @param {messageRequestI} messageData
+ * @param {env} environment - optional environment change
  */
 export const sendMessage = (
   callbackFunction: Function,
-  messageData: sendMessageRequestI
+  messageData: messageRequestI,
+  environment?: env
 ) => {
-  /* TODO now it's mockup */
-  callbackFunction(messageData.message);
+  if (validCallbackFunction(callbackFunction) && validMessageRequestI(messageData)) {
+    messageRequest({ messageData, environment }).then((payload: authTokenResponseI) => {
+      callbackFunction(payload as authTokenResponseI);
+    });
+  }
 };
 
 export default {
