@@ -18,8 +18,8 @@
   - [login](#login)
     - [loginOptions interface](#loginoptions-interface)
     - [authenticationTokenResponse interface](#authenticationtokenresponse-interface)
-  - [refreshAuthToken](#refreshauthtoken)
-    - [refreshAuthTokenOptions interface](#refreshauthenticationtokenoptions-interface)
+  - [refreshAuthenticationToken](#refreshauthenticationtoken)
+    - [refreshAuthenticationTokenOptions interface](#refreshauthenticationtokenoptions-interface)
     - [authenticationTokenResponse interface](#authenticationtokenresponse-interface)
   - [sendMessage](#sendmessage)
     - [sendMessageOptions interface](#sendmessageoptions-interface)
@@ -56,9 +56,9 @@ import kingsChatWebSdk from 'kingschat-web-sdk';
 ### login
 
 Use this function to get KingsChat's authenticate code, that you will need for any KingsChat request.
-You have to pass your **callback function** and [login options](#loginoptions-interface).
+You have to pass [login options](#loginoptions-interface).
 
-After user login and allowing permission, your **callback function** will be called with [authTokenResponse](#authtokenresponse-interface) payload.
+After user will login and allow a permissions, **Promise** will resolve with [authenticationTokenResponse](#authenticationtokenresponse-interface) payload.
 Make sure to store these tokens in your application for later use.
 
 You will get your clientId on [KingsChat's Developer Site](https://developer.kingsch.at/)
@@ -91,16 +91,16 @@ interface authenticationTokenResponseI {
 }
 ```
 
-### refreshAuthToken
+### refreshAuthenticationToken
 
 Use this function to refresh / get KingsChat's authenticate code again.
-You have to pass your **callback function** and [refreshAuthTokenRequestData](#refreshauthtokenrequestdata-interface).
+You have to pass [refreshAuthenticationTokenOptions](#refreshauthenticationtokenoptions-interface).
 
-In return your **callback function** will be called with [authTokenResponse](#authtokenresponse-interface) payload.
+**Promise** will resolve with [authenticationTokenResponse](#authenticationtokenresponse-interface) payload.
 Make sure to store these tokens in your application for later use.
 
 ```javascript
-kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+kingsChatWebSdk.refreshAuthenticationToken(refreshAuthenticationTokenOptions);
 ```
 
 #### refreshAuthenticationTokenOptions Interface:
@@ -118,13 +118,13 @@ interface refreshAuthenticationTokenOptionsI {
 
 
 Use this function to send text message to KingsChat user as user you logged on with [login function](#login)
-You have to pass your **callback function** and [messageData](#messagedata-interface) including **access token**.
+You have to pass [sendMessageOptions](#sendmessageoptions-interface).
 
-In return your **callback function** will be called after message being sent.
+**Promise** will resolve without payload after message being sent.
 
 
 ```javascript
-kingsChatWebSdk.sendMessage(callBackFunction, messageData);
+kingsChatWebSdk.sendMessage(sendMessageOptions);
 ```
 
 #### sendMessageOptions Interface:
@@ -206,13 +206,19 @@ import kingsChatWebSdk from 'kingschat-web-sdk';
 export default {
   methods: {
     loginWithKingsChat() {
-      kingsChatWebSdk.login(callbackFunc, options);
+      kingsChatWebSdk.login(loginOptions)
+      .then(authenticationTokenResponse => ...)
+      .catch(error => ...);
     },
-    refreshKingsChatAuthToken() {
-      kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+    refreshKingsChatAuthenticationToken() {
+      kingsChatWebSdk.refreshAuthenticationToken(refreshAuthenticationTokenOptions)
+      .then(authenticationTokenResponse => ...)
+      .catch(error => ...);
     },
-    callbackFunc(authTokenResponse) {
-      //...
+    sendKingsChatMessageRequest() {
+      kingsChatWebSdk.sendMessage(sendMessageOptions)
+      .then(() => ...)
+      .catch(error => ...);
     }
   },
 };
@@ -234,13 +240,19 @@ import 'kingschat-web-sdk/dist/stylesheets/style.min.css';
 export default {
   methods: {
     loginWithKingsChat() {
-      kingsChatWebSdk.login(callbackFunc, options);
+      kingsChatWebSdk.login(loginOptions)
+      .then(authenticationTokenResponse => ...)
+      .catch(error => ...);
     },
-    refreshKingsChatAuthToken() {
-      kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+    refreshKingsChatAuthenticationToken() {
+      kingsChatWebSdk.refreshAuthenticationToken(refreshAuthenticationTokenOptions)
+      .then(authenticationTokenResponse => ...)
+      .catch(error => ...);
     },
-    callbackFunc(authTokenResponse) {
-      //...
+    sendKingsChatMessageRequest() {
+      kingsChatWebSdk.sendMessage(sendMessageOptions)
+      .then(() => ...)
+      .catch(error => ...);
     }
   },
 };
@@ -256,13 +268,19 @@ import kingsChatWebSdk from 'kingschat-web-sdk';
 import 'kingschat-web-sdk/dist/stylesheets/style.min.css';
 
 function loginWithKingsChat() {
-  kingsChatWebSdk.login(callbackFunc, options);
+  kingsChatWebSdk.login(loginOptions)
+  .then(authenticationTokenResponse => ...)
+  .catch(error => ...);
 }
-function refreshKingsChatAuthToken() {
-  kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+function refreshKingsChatAuthenticationToken() {
+  kingsChatWebSdk.refreshAuthenticationToken(refreshAuthenticationTokenOptions)
+  .then(authenticationTokenResponse => ...)
+  .catch(error => ...);
 }
-function callbackFunc(authTokenResponse) {
-  //...
+function sendKingsChatMessageRequest() {
+  kingsChatWebSdk.sendMessage(sendMessageOptions)
+  .then(() => ...)
+  .catch(error => ...);
 }
 
 export function KingsChatButton() {
@@ -286,13 +304,19 @@ import 'kingschat-web-sdk/dist/stylesheets/style.min.css';
 })
 export class customComponent {
   loginWithKingsChat() {
-    kingsChatWebSdk.login(callbackFunc, options);
+    kingsChatWebSdk.login(loginOptions)
+    .then(authenticationTokenResponse => ...)
+    .catch(error => ...);
   }
-  refreshKingsChatAuthToken() {
-    kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
+  refreshKingsChatAuthenticationToken() {
+    kingsChatWebSdk.refreshAuthenticationToken(refreshAuthenticationTokenOptions)
+    .then(authenticationTokenResponse => ...)
+    .catch(error => ...);
   }
-  callbackFunc(authTokenResponse) {
-    //...
+  sendKingsChatMessageRequest() {
+    kingsChatWebSdk.sendMessage(sendMessageOptions)
+    .then(() => ...)
+    .catch(error => ...);
   }
 }
 ```

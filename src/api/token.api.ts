@@ -5,11 +5,11 @@ import {
 } from '../interfaces';
 import { kingsChatApiPaths } from '../constants';
 
-export const refreshAuthTokenRequest = ({
-  refreshAuthTokenOptions,
+export const refreshAuthenticationTokenRequest = ({
+  refreshAuthenticationTokenOptions,
   environment = 'prod',
 }: {
-  refreshAuthTokenOptions: refreshAuthenticationTokenOptionsI;
+  refreshAuthenticationTokenOptions: refreshAuthenticationTokenOptionsI;
   environment?: env;
 }): Promise<authenticationTokenResponseI> => {
   return fetch(`${kingsChatApiPaths[environment]}/oauth2/token`, {
@@ -19,9 +19,9 @@ export const refreshAuthTokenRequest = ({
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      client_id: refreshAuthTokenOptions.clientId,
+      client_id: refreshAuthenticationTokenOptions.clientId,
       grant_type: 'refresh_token',
-      refresh_token: refreshAuthTokenOptions.refreshToken,
+      refresh_token: refreshAuthenticationTokenOptions.refreshToken,
     }),
   })
     .then(response => {
@@ -31,7 +31,7 @@ export const refreshAuthTokenRequest = ({
             accessToken: payload.access_token,
             expiresInMillis: payload.expires_in_millis,
             refreshToken: payload.refresh_token,
-          };
+          } as authenticationTokenResponseI;
         });
       }
       return Promise.reject(Error('error'));
@@ -42,5 +42,5 @@ export const refreshAuthTokenRequest = ({
 };
 
 export default {
-  refreshAuthTokenRequest,
+  refreshAuthenticationTokenRequest,
 };
