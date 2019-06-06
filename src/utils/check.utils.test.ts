@@ -1,11 +1,16 @@
 import {
   validEnvironment,
   validLoginOptions,
-  validRefreshAuthenticationTokenOptionsI,
+  validRefreshAuthenticationTokenOptions,
+  validSendMessageOptions,
 } from './check.utils';
-import { loginOptionsI, refreshAuthenticationTokenOptionsI } from '../interfaces';
+import {
+  loginOptionsI,
+  refreshAuthenticationTokenOptionsI,
+  sendMessageOptionsI,
+} from '../interfaces';
 
-describe('valid environment as a string', () => {
+describe('valid environment as a env', () => {
   it("shouldn't throw an error on valid string", () => {
     const allowedEnvironments: Array<any> = ['dev', 'staging', 'prod', undefined, null];
     allowedEnvironments.forEach(environment => {
@@ -54,7 +59,7 @@ describe('valid validLoginOptions as a loginOptionsI', () => {
     definedTestData.forEach(item => {
       expect(() => {
         // @ts-ignore
-        validLoginOptions({ scopes: loginOptions.scopes, clientId: item });
+        validLoginOptions({ ...loginOptions, clientId: item });
       }).toThrowError(Error(`clientId is type of ${typeof item} instead of string`));
     });
   });
@@ -65,7 +70,7 @@ describe('valid validLoginOptions as a loginOptionsI', () => {
     notDefinedTestData.forEach(item => {
       expect(() => {
         // @ts-ignore
-        validLoginOptions({ scopes: loginOptions.scopes, clientId: item });
+        validLoginOptions({ ...loginOptions, clientId: item });
       }).toThrowError(Error('clientId is not defined!'));
     });
   });
@@ -85,8 +90,8 @@ describe('valid validLoginOptions as a loginOptionsI', () => {
       expect(() => {
         // @ts-ignore
         validLoginOptions({
+          ...loginOptions,
           scopes: item,
-          clientId: loginOptions.clientId,
         });
       }).toThrowError(Error(`scopes are type of ${typeof item} instead of Array`));
     });
@@ -99,8 +104,8 @@ describe('valid validLoginOptions as a loginOptionsI', () => {
       expect(() => {
         // @ts-ignore
         validLoginOptions({
+          ...loginOptions,
           scopes: item,
-          clientId: loginOptions.clientId,
         });
       }).toThrowError(Error('scopes are not defined!'));
     });
@@ -114,13 +119,13 @@ describe('valid refreshAuthenticationTokenOptions as a refreshAuthenticationToke
   };
 
   it("shouldn't throw an error for valid data", () => {
-    expect(validRefreshAuthenticationTokenOptionsI(refreshAuthenticationTokenOptions));
+    expect(validRefreshAuthenticationTokenOptions(refreshAuthenticationTokenOptions));
   });
 
   it('should throw an Error for non defined refreshAuthenticationTokenOptions', () => {
     expect(() => {
       // @ts-ignore
-      validRefreshAuthenticationTokenOptionsI(undefined);
+      validRefreshAuthenticationTokenOptions(undefined);
     }).toThrowError(Error('refreshAuthenticationTokenOptions are not defined!'));
   });
 
@@ -138,7 +143,10 @@ describe('valid refreshAuthenticationTokenOptions as a refreshAuthenticationToke
     definedTestData.forEach(item => {
       expect(() => {
         // @ts-ignore
-        validRefreshAuthenticationTokenOptionsI({ clientId: item });
+        validRefreshAuthenticationTokenOptions({
+          ...refreshAuthenticationTokenOptions,
+          clientId: item,
+        });
       }).toThrowError(Error(`clientId is type of ${typeof item} instead of string`));
     });
   });
@@ -149,7 +157,10 @@ describe('valid refreshAuthenticationTokenOptions as a refreshAuthenticationToke
     notDefinedTestData.forEach(item => {
       expect(() => {
         // @ts-ignore
-        validRefreshAuthenticationTokenOptionsI({ clientId: item });
+        validRefreshAuthenticationTokenOptions({
+          ...refreshAuthenticationTokenOptions,
+          clientId: item,
+        });
       }).toThrowError(Error('clientId is not defined!'));
     });
   });
@@ -168,8 +179,8 @@ describe('valid refreshAuthenticationTokenOptions as a refreshAuthenticationToke
     definedTestData.forEach(item => {
       expect(() => {
         // @ts-ignore
-        validRefreshAuthenticationTokenOptionsI({
-          clientId: refreshAuthenticationTokenOptions.clientId,
+        validRefreshAuthenticationTokenOptions({
+          ...refreshAuthenticationTokenOptions,
           refreshToken: item,
         });
       }).toThrowError(Error(`refreshToken is type of ${typeof item} instead of string`));
@@ -182,11 +193,122 @@ describe('valid refreshAuthenticationTokenOptions as a refreshAuthenticationToke
     notDefinedTestData.forEach(item => {
       expect(() => {
         // @ts-ignore
-        validRefreshAuthenticationTokenOptionsI({
-          clientId: refreshAuthenticationTokenOptions.clientId,
+        validRefreshAuthenticationTokenOptions({
+          ...refreshAuthenticationTokenOptions,
           refreshToken: item,
         });
       }).toThrowError(Error('refreshToken is not defined!'));
+    });
+  });
+});
+
+describe('valid sendMessageOptions as a sendMessageOptionsI', () => {
+  const sendMessageOptions: sendMessageOptionsI = {
+    message: 'Message string',
+    userIdentifier: 'userIDstring1234123',
+    accessToken: '123accessTokenStrin.g1-_239.09',
+  };
+
+  it("shouldn't throw an error for valid data", () => {
+    expect(validSendMessageOptions(sendMessageOptions));
+  });
+
+  it('should throw an Error for non defined sendMessageOptions', () => {
+    expect(() => {
+      // @ts-ignore
+      validSendMessageOptions(undefined);
+    }).toThrowError(Error('sendMessageOptions are not defined!'));
+  });
+
+  it('should throw an Error for non strings defined message', () => {
+    const definedTestData: Array<any> = [
+      { object: true },
+      ['array'],
+      true,
+      12,
+      12.34,
+      0x123,
+      Symbol('abc'),
+      Error('123abc'),
+    ];
+    definedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validSendMessageOptions({ ...sendMessageOptions, message: item });
+      }).toThrowError(Error(`message is type of ${typeof item} instead of string`));
+    });
+  });
+
+  it('should throw an Error for not defined types & false boolean message', () => {
+    const notDefinedTestData: Array<any> = [null, undefined, false];
+
+    notDefinedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validSendMessageOptions({ ...sendMessageOptions, message: item });
+      }).toThrowError(Error('message is not defined!'));
+    });
+  });
+
+  it('should throw an Error for non strings defined userIdentifier', () => {
+    const definedTestData: Array<any> = [
+      { object: true },
+      ['array'],
+      true,
+      12,
+      12.34,
+      0x123,
+      Symbol('abc'),
+      Error('123abc'),
+    ];
+    definedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validSendMessageOptions({ ...sendMessageOptions, userIdentifier: item });
+      }).toThrowError(
+        Error(`userIdentifier is type of ${typeof item} instead of string`)
+      );
+    });
+  });
+
+  it('should throw an Error for not defined types & false boolean userIdentifier', () => {
+    const notDefinedTestData: Array<any> = [null, undefined, false];
+
+    notDefinedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validSendMessageOptions({ ...sendMessageOptions, userIdentifier: item });
+      }).toThrowError(Error('userIdentifier is not defined!'));
+    });
+  });
+
+  it('should throw an Error for non strings defined accessToken', () => {
+    const definedTestData: Array<any> = [
+      { object: true },
+      ['array'],
+      true,
+      12,
+      12.34,
+      0x123,
+      Symbol('abc'),
+      Error('123abc'),
+    ];
+    definedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validSendMessageOptions({ ...sendMessageOptions, accessToken: item });
+      }).toThrowError(Error(`accessToken is type of ${typeof item} instead of string`));
+    });
+  });
+
+  it('should throw an Error for not defined types & false boolean accessToken', () => {
+    const notDefinedTestData: Array<any> = [null, undefined, false];
+
+    notDefinedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validSendMessageOptions({ ...sendMessageOptions, accessToken: item });
+      }).toThrowError(Error('accessToken is not defined!'));
     });
   });
 });

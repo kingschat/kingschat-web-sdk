@@ -8,8 +8,8 @@ import {
 import {
   validEnvironment,
   validLoginOptions,
-  validRefreshAuthenticationTokenOptionsI,
-  validSendMessageOptionsI,
+  validRefreshAuthenticationTokenOptions,
+  validSendMessageOptions,
 } from './utils/check.utils';
 import { loginWindow } from './utils/window.utils';
 import { refreshAuthTokenRequest } from './api/token.api';
@@ -46,7 +46,7 @@ export const refreshAuthToken = (
 ): Promise<authenticationTokenResponseI> => {
   try {
     validEnvironment(environment);
-    validRefreshAuthenticationTokenOptionsI(refreshAuthTokenOptions);
+    validRefreshAuthenticationTokenOptions(refreshAuthTokenOptions);
     return refreshAuthTokenRequest({
       refreshAuthTokenOptions,
       environment: environment || 'prod',
@@ -68,7 +68,7 @@ export const sendMessage = (
 ): Promise<string> => {
   try {
     validEnvironment(environment);
-    validSendMessageOptionsI(sendMessageOptions);
+    validSendMessageOptions(sendMessageOptions);
     return messageRequest({
       sendMessageOptions,
       environment: environment || 'prod',

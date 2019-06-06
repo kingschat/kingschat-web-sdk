@@ -32,7 +32,7 @@ export const validLoginOptions = (loginOptions: loginOptionsI) => {
   }
 };
 
-export const validRefreshAuthenticationTokenOptionsI = (
+export const validRefreshAuthenticationTokenOptions = (
   refreshAuthenticationTokenOptions: refreshAuthenticationTokenOptionsI
 ) => {
   if (!refreshAuthenticationTokenOptions) {
@@ -56,7 +56,7 @@ export const validRefreshAuthenticationTokenOptionsI = (
   }
 };
 
-export const validSendMessageOptionsI = (sendMessageOptions: sendMessageOptionsI) => {
+export const validSendMessageOptions = (sendMessageOptions: sendMessageOptionsI) => {
   if (!sendMessageOptions) {
     throw Error('sendMessageOptions are not defined!');
   }
@@ -89,6 +89,6 @@ export const validSendMessageOptionsI = (sendMessageOptions: sendMessageOptionsI
 export default {
   validEnvironment,
   validLoginOptions,
-  validRefreshAuthenticationTokenOptionsI,
-  validSendMessageOptionsI,
+  validRefreshAuthenticationTokenOptions,
+  validSendMessageOptions,
 };
