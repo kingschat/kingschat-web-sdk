@@ -16,7 +16,7 @@ import { refreshAuthenticationTokenRequest } from './api/token.api';
 import { sendMessageRequest } from './api/message.api';
 import { authorizationURLs } from './constants';
 /**
- * This function call `callbackFunction` with `authenticationTokenResponseI` interface as param
+ * This request user permission to use his/her account for any listed scope
  * @returns {authenticationTokenResponseI} authenticationTokenResponse
  * @param {loginOptionsI} loginOptions
  * @param {env} environment
@@ -35,7 +35,7 @@ export const login = (
 };
 
 /**
- * This function call `callbackFunction` with `authenticationTokenResponseI` interface as param
+ * This refresh access token received earlier
  * @returns {authenticationTokenResponseI} authenticationTokenResponse
  * @param {refreshAuthenticationTokenOptionsI} refreshAuthenticationTokenOptions
  * @param {env} environment
@@ -57,7 +57,7 @@ export const refreshAuthenticationToken = (
 };
 
 /**
- * This function call `callbackFunction` on success
+ * This request send message to another KingsChat user
  * @returns {string} info
  * @param {sendMessageOptionsI} sendMessageOptions
  * @param {env} environment - optional environment change

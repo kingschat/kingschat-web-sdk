@@ -64,7 +64,7 @@ Make sure to store these tokens in your application for later use.
 You will get your clientId on [KingsChat's Developer Site](https://developer.kingsch.at/)
 
 ```javascript
-kingsChatWebSdk.login(callBackFunction, loginOptions);
+kingsChatWebSdk.login(loginOptions);
 ```
 
 #### loginOptions Interface:
