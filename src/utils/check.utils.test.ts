@@ -1,5 +1,9 @@
-import { validEnvironment, validRefreshAuthenticationTokenOptionsI } from './check.utils';
-import { refreshAuthenticationTokenOptionsI } from '../interfaces';
+import {
+  validEnvironment,
+  validLoginOptions,
+  validRefreshAuthenticationTokenOptionsI,
+} from './check.utils';
+import { loginOptionsI, refreshAuthenticationTokenOptionsI } from '../interfaces';
 
 describe('valid environment as a string', () => {
   it("shouldn't throw an error on valid string", () => {
@@ -15,6 +19,90 @@ describe('valid environment as a string', () => {
       expect(() => {
         validEnvironment(environment);
       }).toThrowError(Error('environment is invalid'));
+    });
+  });
+});
+
+describe('valid validLoginOptions as a loginOptionsI', () => {
+  const loginOptions: loginOptionsI = {
+    scopes: ['send_chat_message'],
+    clientId: 'a1234567-abcd-1234-abcd-12345abc1234',
+  };
+
+  it("shouldn't throw an error for valid data", () => {
+    expect(validLoginOptions(loginOptions));
+  });
+
+  it('should throw an Error for non defined loginOptions', () => {
+    expect(() => {
+      // @ts-ignore
+      validLoginOptions(undefined);
+    }).toThrowError(Error('loginOptions are not defined!'));
+  });
+
+  it('should throw an Error for non strings defined clientId', () => {
+    const definedTestData: Array<any> = [
+      { object: true },
+      ['array'],
+      true,
+      12,
+      12.34,
+      0x123,
+      Symbol('abc'),
+      Error('123abc'),
+    ];
+    definedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validLoginOptions({ scopes: loginOptions.scopes, clientId: item });
+      }).toThrowError(Error(`clientId is type of ${typeof item} instead of string`));
+    });
+  });
+
+  it('should throw an Error for not defined types & false boolean clientId', () => {
+    const notDefinedTestData: Array<any> = [null, undefined, false];
+
+    notDefinedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validLoginOptions({ scopes: loginOptions.scopes, clientId: item });
+      }).toThrowError(Error('clientId is not defined!'));
+    });
+  });
+
+  it('should throw an Error for non Array defined scopes', () => {
+    const definedTestData: Array<any> = [
+      'string',
+      { object: true },
+      true,
+      12,
+      12.34,
+      0x123,
+      Symbol('abc'),
+      Error('123abc'),
+    ];
+    definedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validLoginOptions({
+          scopes: item,
+          clientId: loginOptions.clientId,
+        });
+      }).toThrowError(Error(`scopes are type of ${typeof item} instead of Array`));
+    });
+  });
+
+  it('should throw an Error for not defined types & false boolean scopes', () => {
+    const notDefinedTestData: Array<any> = [null, undefined, false];
+
+    notDefinedTestData.forEach(item => {
+      expect(() => {
+        // @ts-ignore
+        validLoginOptions({
+          scopes: item,
+          clientId: loginOptions.clientId,
+        });
+      }).toThrowError(Error('scopes are not defined!'));
     });
   });
 });
