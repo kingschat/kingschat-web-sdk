@@ -157,7 +157,7 @@ or specific version of it:
 ```html
 <link
   rel="stylesheet"
-  href="https://unpkg.com/kingschat-web-sdk@0.0.8/dist/stylesheets/style.min.css"
+  href="https://unpkg.com/kingschat-web-sdk@0.1.0/dist/stylesheets/style.min.css"
 />
 ```
 
