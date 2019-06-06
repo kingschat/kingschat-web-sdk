@@ -1,7 +1,7 @@
 import { env, sendMessageOptionsI } from '../interfaces';
 import { kingsChatApiPaths } from '../constants';
 
-export const messageRequest = ({
+export const sendMessageRequest = ({
   sendMessageOptions,
   environment = 'prod',
 }: {
@@ -42,5 +42,5 @@ export const messageRequest = ({
 };
 
 export default {
-  messageRequest,
+  sendMessageRequest,
 };

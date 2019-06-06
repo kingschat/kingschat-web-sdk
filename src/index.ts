@@ -12,8 +12,8 @@ import {
   validSendMessageOptions,
 } from './utils/check.utils';
 import { loginWindow } from './utils/window.utils';
-import { refreshAuthTokenRequest } from './api/token.api';
-import { messageRequest } from './api/message.api';
+import { refreshAuthenticationTokenRequest } from './api/token.api';
+import { sendMessageRequest } from './api/message.api';
 import { authorizationURLs } from './constants';
 /**
  * This function call `callbackFunction` with `authenticationTokenResponseI` interface as param
@@ -37,18 +37,18 @@ export const login = (
 /**
  * This function call `callbackFunction` with `authenticationTokenResponseI` interface as param
  * @returns {authenticationTokenResponseI} authenticationTokenResponse
- * @param {refreshAuthenticationTokenOptionsI} refreshAuthTokenOptions
+ * @param {refreshAuthenticationTokenOptionsI} refreshAuthenticationTokenOptions
  * @param {env} environment
  */
-export const refreshAuthToken = (
-  refreshAuthTokenOptions: refreshAuthenticationTokenOptionsI,
+export const refreshAuthenticationToken = (
+  refreshAuthenticationTokenOptions: refreshAuthenticationTokenOptionsI,
   environment?: env
 ): Promise<authenticationTokenResponseI> => {
   try {
     validEnvironment(environment);
-    validRefreshAuthenticationTokenOptions(refreshAuthTokenOptions);
-    return refreshAuthTokenRequest({
-      refreshAuthTokenOptions,
+    validRefreshAuthenticationTokenOptions(refreshAuthenticationTokenOptions);
+    return refreshAuthenticationTokenRequest({
+      refreshAuthenticationTokenOptions,
       environment: environment || 'prod',
     });
   } catch (error) {
@@ -69,7 +69,7 @@ export const sendMessage = (
   try {
     validEnvironment(environment);
     validSendMessageOptions(sendMessageOptions);
-    return messageRequest({
+    return sendMessageRequest({
       sendMessageOptions,
       environment: environment || 'prod',
     });
@@ -80,6 +80,6 @@ export const sendMessage = (
 
 export default {
   login,
-  refreshAuthToken,
+  refreshAuthenticationToken,
   sendMessage,
 };

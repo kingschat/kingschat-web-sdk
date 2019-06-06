@@ -1,18 +1,19 @@
 export type env = 'dev' | 'staging' | 'prod';
 
+/* Params for a `kingschat-sdk-web.login` function. */
 export interface loginOptionsI {
   scopes: Array<string>;
   clientId: string;
 }
 
-/* Params for callbackFunctions on `kingschat-sdk-web.login` & `kingschat-sdk-web.refreshAuthToken` functions. */
+/* Resolved payload interface for `kingschat-sdk-web.login` & `kingschat-sdk-web.refreshAuthenticationToken` functions. */
 export interface authenticationTokenResponseI {
   accessToken: string;
   expiresInMillis: number;
   refreshToken: string;
 }
 
-/* Params for a `kingschat-sdk-web.refreshAuthToken` function. */
+/* Params for a `kingschat-sdk-web.refreshAuthenticationToken` function. */
 export interface refreshAuthenticationTokenOptionsI {
   clientId: string;
   refreshToken: string;
@@ -25,7 +26,7 @@ export interface sendMessageOptionsI {
   accessToken: string;
 }
 
-/* Window area interface for window.open function refreshAuthTokenOptions. */
+/* Window area interface for newWindowOptions function. */
 export interface windowAreaI {
   width: number;
   height: number;

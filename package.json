@@ -1,6 +1,6 @@
 {
   "name": "kingschat-web-sdk",
-  "version": "0.0.8-alpha-5",
+  "version": "0.0.8",
   "description": "KingsChat Web SDK",
   "license": "ISC",
   "repository": "kingschat/kingschat-web-sdk",
