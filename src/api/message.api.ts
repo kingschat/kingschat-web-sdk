@@ -1,29 +1,29 @@
-import { env, authTokenResponseI, messageRequestI } from '../interfaces';
+import { env, authenticationTokenResponseI, sendMessageOptionsI } from '../interfaces';
 import { kingsChatApiPaths } from '../constants';
 
 export const messageRequest = ({
-  messageData,
+  sendMessageOptions,
   environment = 'prod',
 }: {
-  messageData: messageRequestI;
+  sendMessageOptions: sendMessageOptionsI;
   environment?: env;
-}): Promise<authTokenResponseI> => {
+}): Promise<authenticationTokenResponseI> => {
   return fetch(
     `${kingsChatApiPaths[environment]}/api/users/${
-      messageData.userIdentifier
+      sendMessageOptions.userIdentifier
     }/new_message`,
     {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${messageData.accessToken}`,
+        Authorization: `Bearer ${sendMessageOptions.accessToken}`,
       },
       body: JSON.stringify({
         message: {
           body: {
             text: {
-              body: messageData.message,
+              body: sendMessageOptions.message,
             },
           },
         },

@@ -6,26 +6,26 @@ export interface loginOptionsI {
 }
 
 /* Params for callbackFunctions on `kingschat-sdk-web.login` & `kingschat-sdk-web.refreshAuthToken` functions. */
-export interface authTokenResponseI {
+export interface authenticationTokenResponseI {
   accessToken: string;
   expiresInMillis: number;
   refreshToken: string;
 }
 
 /* Params for a `kingschat-sdk-web.refreshAuthToken` function. */
-export interface refreshAuthTokenRequestI {
+export interface refreshAuthenticationTokenOptionsI {
   clientId: string;
   refreshToken: string;
 }
 
 /* Params for a `kingschat-sdk-web.sendMessage` function. */
-export interface messageRequestI {
+export interface sendMessageOptionsI {
   message: string;
   userIdentifier: string;
   accessToken: string;
 }
 
-/* Window area interface for window.open function options. */
+/* Window area interface for window.open function refreshAuthTokenOptions. */
 export interface windowAreaI {
   width: number;
   height: number;

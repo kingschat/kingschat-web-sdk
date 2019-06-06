@@ -17,14 +17,14 @@
 - [Api](#api)
   - [login](#login)
     - [loginOptions interface](#loginoptions-interface)
-    - [authentication token response interface](#authtokenresponse-interface)
+    - [authenticationTokenResponse interface](#authenticationtokenresponse-interface)
   - [refreshAuthToken](#refreshauthtoken)
-    - [refreshAuthTokenRequestData interface](#refreshauthtokenrequestdata-interface)
-    - [authentication token response interface](#authtokenresponse-interface)
+    - [refreshAuthTokenOptions interface](#refreshauthenticationtokenoptions-interface)
+    - [authenticationTokenResponse interface](#authenticationtokenresponse-interface)
   - [sendMessage](#sendmessage)
+    - [sendMessageOptions interface](#sendmessageoptions-interface)
 - [Styles](#styles)
 - [Usage](#usage)
-  - [Static Site](#static-site)
   - [Webpack](#webpack)
   - [Vue.js](#vuejs)
   - [React](#react)
@@ -78,10 +78,10 @@ interface loginOptionsI {
 }
 ```
 
-#### authTokenResponse Interface:
+#### authenticationTokenResponse Interface:
 
 ```typescript
-interface authTokenResponseI {
+interface authenticationTokenResponseI {
   // Access Token used for every KingsChat Request
   accessToken: string;
   // time in milliseconds until token expires
@@ -103,10 +103,10 @@ Make sure to store these tokens in your application for later use.
 kingsChatWebSdk.refreshAuthToken(callBackFunction, refreshAuthTokenRequestData);
 ```
 
-#### refreshAuthTokenRequestData Interface:
+#### refreshAuthenticationTokenOptions Interface:
 
 ```typescript
-interface refreshAuthTokenRequestI {
+interface refreshAuthenticationTokenOptionsI {
   // Your clientId generated on KingsChat's Developer Site
   clientId: string; // ex. 'a1234567-abcd-1234-abcd-12345abc1234'
   // Refresh token you got from login function
@@ -114,23 +114,23 @@ interface refreshAuthTokenRequestI {
 }
 ```
 
-### sendMessage - WIP
+### sendMessage
 
 
 Use this function to send text message to KingsChat user as user you logged on with [login function](#login)
 You have to pass your **callback function** and [messageData](#messagedata-interface) including **access token**.
 
-In return your **callback function** will be called after successfully sent message.
+In return your **callback function** will be called after message being sent.
 
 
 ```javascript
 kingsChatWebSdk.sendMessage(callBackFunction, messageData);
 ```
 
-#### messageData Interface:
+#### sendMessageOptions Interface:
 
 ```typescript
-interface messageRequestI {
+interface sendMessageOptionsI {
   message: string; // Message you want to send to KingsChat user
   userIdentifier: string; // You have to know KingsChat userId 
   accessToken: string; // You got that from login / refresh function
@@ -157,7 +157,7 @@ or specific version of it:
 ```html
 <link
   rel="stylesheet"
-  href="https://unpkg.com/kingschat-web-sdk@0.0.5/dist/stylesheets/style.min.css"
+  href="https://unpkg.com/kingschat-web-sdk@0.0.8/dist/stylesheets/style.min.css"
 />
 ```
 

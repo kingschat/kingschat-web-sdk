@@ -4,7 +4,7 @@ import rewire from 'rewire';
 const windowModule = rewire('../../dist/utils/window.utils.js');
 const newWindowOptions: Function = windowModule.__get__('newWindowOptions');
 
-describe('new window options', () => {
+describe('new window refreshAuthTokenOptions', () => {
   it("shouldn't runs when no window", () => {
     expect(() => {
       newWindowOptions();

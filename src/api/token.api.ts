@@ -1,13 +1,17 @@
-import { env, authTokenResponseI, refreshAuthTokenRequestI } from '../interfaces';
+import {
+  env,
+  authenticationTokenResponseI,
+  refreshAuthenticationTokenOptionsI,
+} from '../interfaces';
 import { kingsChatApiPaths } from '../constants';
 
 export const refreshAuthTokenRequest = ({
-  options,
+  refreshAuthTokenOptions,
   environment = 'prod',
 }: {
-  options: refreshAuthTokenRequestI;
+  refreshAuthTokenOptions: refreshAuthenticationTokenOptionsI;
   environment?: env;
-}): Promise<authTokenResponseI> => {
+}): Promise<authenticationTokenResponseI> => {
   return fetch(`${kingsChatApiPaths[environment]}/oauth2/token`, {
     method: 'POST',
     headers: {
@@ -15,9 +19,9 @@ export const refreshAuthTokenRequest = ({
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      client_id: options.clientId,
+      client_id: refreshAuthTokenOptions.clientId,
       grant_type: 'refresh_token',
-      refresh_token: options.refreshToken,
+      refresh_token: refreshAuthTokenOptions.refreshToken,
     }),
   })
     .then(response => {

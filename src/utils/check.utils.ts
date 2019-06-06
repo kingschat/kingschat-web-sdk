@@ -1,4 +1,8 @@
-import { loginOptionsI, messageRequestI, refreshAuthTokenRequestI } from '../interfaces';
+import {
+  loginOptionsI,
+  sendMessageOptionsI,
+  refreshAuthenticationTokenOptionsI,
+} from '../interfaces';
 
 export const validCallbackFunction = (callbackFunction: Function): boolean => {
   if (!callbackFunction) {
@@ -29,7 +33,7 @@ export const validLoginOptions = (loginOptions: loginOptionsI): boolean => {
 };
 
 export const validRefreshAuthTokenRequestI = (
-  refreshAuthTokenRequest: refreshAuthTokenRequestI
+  refreshAuthTokenRequest: refreshAuthenticationTokenOptionsI
 ): boolean => {
   if (!refreshAuthTokenRequest.clientId) {
     throw Error('clientId is not defined!');
@@ -50,7 +54,7 @@ export const validRefreshAuthTokenRequestI = (
   return true;
 };
 
-export const validMessageRequestI = (messageData: messageRequestI): boolean => {
+export const validMessageRequestI = (messageData: sendMessageOptionsI): boolean => {
   if (!messageData.message) {
     throw Error('message is not defined!');
   } else if (typeof messageData.message !== 'string') {
