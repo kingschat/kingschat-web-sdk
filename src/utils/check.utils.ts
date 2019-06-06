@@ -4,6 +4,7 @@ import {
   refreshAuthenticationTokenOptionsI,
 } from '../interfaces';
 
+export const validEnvoirment = () => {};
 export const validCallbackFunction = (callbackFunction: Function): boolean => {
   if (!callbackFunction) {
     throw Error('callbackFunction is not defined!');

@@ -31,7 +31,7 @@ export const refreshAuthTokenRequest = ({
             accessToken: payload.access_token,
             expiresInMillis: payload.expires_in_millis,
             refreshToken: payload.refresh_token,
-          };
+          } as authenticationTokenResponseI;
         });
       }
       return Promise.reject(Error('error'));

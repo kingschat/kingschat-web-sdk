@@ -1,4 +1,4 @@
-import { env, authenticationTokenResponseI, sendMessageOptionsI } from '../interfaces';
+import { env, sendMessageOptionsI } from '../interfaces';
 import { kingsChatApiPaths } from '../constants';
 
 export const messageRequest = ({
@@ -7,7 +7,7 @@ export const messageRequest = ({
 }: {
   sendMessageOptions: sendMessageOptionsI;
   environment?: env;
-}): Promise<authenticationTokenResponseI> => {
+}): Promise<string> => {
   return fetch(
     `${kingsChatApiPaths[environment]}/api/users/${
       sendMessageOptions.userIdentifier

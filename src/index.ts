@@ -6,7 +6,6 @@ import {
   sendMessageOptionsI,
 } from './interfaces';
 import {
-  validCallbackFunction,
   validLoginOptions,
   validRefreshAuthTokenRequestI,
   validMessageRequestI,
@@ -17,69 +16,58 @@ import { messageRequest } from './api/message.api';
 import { authorizationURLs } from './constants';
 /**
  * This function call `callbackFunction` with `authenticationTokenResponseI` interface as param
- * @returns nothing
- * @param {function} callbackFunction
+ * @returns {authenticationTokenResponseI} authenticationTokenResponse
  * @param {loginOptionsI} loginOptions
- * @param {env} environment - optional environment change
+ * @param {env} environment
  */
 export const login = (
-  callbackFunction: Function,
   loginOptions: loginOptionsI,
   environment?: env
-) => {
-  if (validCallbackFunction(callbackFunction) && validLoginOptions(loginOptions)) {
-    loginWindow(new URL(authorizationURLs[environment || 'prod']), loginOptions).then(
-      (data: authenticationTokenResponseI) => {
-        callbackFunction(data as authenticationTokenResponseI);
-      }
-    );
+): Promise<authenticationTokenResponseI> => {
+  try {
+    validLoginOptions(loginOptions);
+    return loginWindow(new URL(authorizationURLs[environment || 'prod']), loginOptions);
+  } catch (error) {
+    return Promise.reject(error);
   }
 };
 
 /**
  * This function call `callbackFunction` with `authenticationTokenResponseI` interface as param
- * @returns nothing
- * @param {function} callbackFunction
+ * @returns {authenticationTokenResponseI} authenticationTokenResponse
  * @param {refreshAuthenticationTokenOptionsI} refreshAuthTokenOptions
- * @param {env} environment - optional environment change
+ * @param {env} environment
  */
 export const refreshAuthToken = (
-  callbackFunction: Function,
   refreshAuthTokenOptions: refreshAuthenticationTokenOptionsI,
   environment?: env
-) => {
-  if (
-    validCallbackFunction(callbackFunction) &&
-    validRefreshAuthTokenRequestI(refreshAuthTokenOptions)
-  ) {
-    refreshAuthTokenRequest({
+): Promise<authenticationTokenResponseI> => {
+  try {
+    validRefreshAuthTokenRequestI(refreshAuthTokenOptions);
+    return refreshAuthTokenRequest({
       refreshAuthTokenOptions,
       environment,
-    }).then((payload: authenticationTokenResponseI) => {
-      callbackFunction(payload as authenticationTokenResponseI);
     });
+  } catch (error) {
+    return Promise.reject(error);
   }
 };
 
 /**
  * This function call `callbackFunction` on success
- * @returns nothing
- * @param {function} callbackFunction
+ * @returns {string} info
  * @param {sendMessageOptionsI} sendMessageOptions
  * @param {env} environment - optional environment change
  */
 export const sendMessage = (
-  callbackFunction: Function,
   sendMessageOptions: sendMessageOptionsI,
   environment?: env
-) => {
-  if (
-    validCallbackFunction(callbackFunction) &&
-    validMessageRequestI(sendMessageOptions)
-  ) {
-    messageRequest({ sendMessageOptions, environment }).then((payload: any) => {
-      callbackFunction(payload);
-    });
+): Promise<string> => {
+  try {
+    validMessageRequestI(sendMessageOptions);
+    return messageRequest({ sendMessageOptions, environment });
+  } catch (error) {
+    return Promise.reject(error);
   }
 };
 
