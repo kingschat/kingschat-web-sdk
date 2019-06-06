@@ -40,7 +40,7 @@ export const loginWindow = (
   const authWindow: Window | null = window.open(windowURL.href, '_blank', windowOptions);
 
   if (!authWindow) {
-    throw Error('You have to enable popups to show login window');
+    return Promise.reject(Error('You have to enable popups to show login window'));
   }
 
   // Listen to message from child window
@@ -53,17 +53,17 @@ export const loginWindow = (
 
       if (!allowedResponseOrigins.includes(msg.origin)) {
         authWindow.close();
-        reject(new Error('Not allowed message origin'));
+        reject(Error('Not allowed message origin'));
       }
       if (msg.data) {
         authWindow.close();
         if (msg.data.error) {
-          reject(new Error(msg.data.error));
+          reject(Error(msg.data.error));
         } else {
           resolve(msg.data);
         }
       } else {
-        reject(new Error('Bad Request'));
+        reject(Error('Bad Request'));
       }
     };
     window.addEventListener('message', listener as EventListener, false);
@@ -71,7 +71,7 @@ export const loginWindow = (
       if (!authWindow.window) {
         window.removeEventListener('message', listener as EventListener, false);
         clearInterval(interval);
-        throw Error('User closed window before allowing access');
+        reject(Error('User closed window before allowing access'));
       }
     }, 350);
   });

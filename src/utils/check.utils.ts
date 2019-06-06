@@ -1,23 +1,24 @@
 import {
+  env,
   loginOptionsI,
   sendMessageOptionsI,
   refreshAuthenticationTokenOptionsI,
 } from '../interfaces';
 
-export const validEnvoirment = () => {};
-export const validCallbackFunction = (callbackFunction: Function): boolean => {
-  if (!callbackFunction) {
-    throw Error('callbackFunction is not defined!');
-  } else if (typeof callbackFunction !== 'function') {
-    throw Error(
-      `callbackFunction is type of ${typeof callbackFunction} instead of function`
-    );
+export const validEnvironment = (environment?: env) => {
+  if (environment) {
+    const allowedEnvironments = ['dev', 'staging', 'prod'];
+    if (typeof environment !== 'string' || !allowedEnvironments.includes(environment)) {
+      throw Error('environment is invalid');
+    }
   }
-
-  return true;
 };
 
-export const validLoginOptions = (loginOptions: loginOptionsI): boolean => {
+export const validLoginOptions = (loginOptions: loginOptionsI) => {
+  if (!loginOptions) {
+    throw Error('loginOptions are not defined!');
+  }
+
   if (!loginOptions.scopes) {
     throw Error('scopes are not defined!');
   } else if (!Array.isArray(loginOptions.scopes)) {
@@ -29,61 +30,65 @@ export const validLoginOptions = (loginOptions: loginOptionsI): boolean => {
   } else if (typeof loginOptions.clientId !== 'string') {
     throw Error(`clientId is type of ${typeof loginOptions.clientId} instead of string`);
   }
-
-  return true;
 };
 
-export const validRefreshAuthTokenRequestI = (
-  refreshAuthTokenRequest: refreshAuthenticationTokenOptionsI
-): boolean => {
-  if (!refreshAuthTokenRequest.clientId) {
+export const validRefreshAuthenticationTokenOptionsI = (
+  refreshAuthenticationTokenOptions: refreshAuthenticationTokenOptionsI
+) => {
+  if (!refreshAuthenticationTokenOptions) {
+    throw Error('refreshAuthenticationTokenOptions are not defined!');
+  }
+
+  if (!refreshAuthenticationTokenOptions.clientId) {
     throw Error('clientId is not defined!');
-  } else if (typeof refreshAuthTokenRequest.clientId !== 'string') {
+  } else if (typeof refreshAuthenticationTokenOptions.clientId !== 'string') {
     throw Error(
-      `clientId is type of ${typeof refreshAuthTokenRequest.clientId} instead of string`
+      `clientId is type of ${typeof refreshAuthenticationTokenOptions.clientId} instead of string`
     );
   }
 
-  if (!refreshAuthTokenRequest.refreshToken) {
+  if (!refreshAuthenticationTokenOptions.refreshToken) {
     throw Error('refreshToken is not defined!');
-  } else if (typeof refreshAuthTokenRequest.refreshToken !== 'string') {
+  } else if (typeof refreshAuthenticationTokenOptions.refreshToken !== 'string') {
     throw Error(
-      `refreshToken is type of ${typeof refreshAuthTokenRequest.refreshToken} instead of string`
+      `refreshToken is type of ${typeof refreshAuthenticationTokenOptions.refreshToken} instead of string`
     );
   }
-
-  return true;
 };
 
-export const validMessageRequestI = (messageData: sendMessageOptionsI): boolean => {
-  if (!messageData.message) {
+export const validSendMessageOptionsI = (sendMessageOptions: sendMessageOptionsI) => {
+  if (!sendMessageOptions) {
+    throw Error('sendMessageOptions are not defined!');
+  }
+
+  if (!sendMessageOptions.message) {
     throw Error('message is not defined!');
-  } else if (typeof messageData.message !== 'string') {
-    throw Error(`message is type of ${typeof messageData.message} instead of string`);
+  } else if (typeof sendMessageOptions.message !== 'string') {
+    throw Error(
+      `message is type of ${typeof sendMessageOptions.message} instead of string`
+    );
   }
 
-  if (!messageData.accessToken) {
+  if (!sendMessageOptions.accessToken) {
     throw Error('accessToken is not defined!');
-  } else if (typeof messageData.accessToken !== 'string') {
+  } else if (typeof sendMessageOptions.accessToken !== 'string') {
     throw Error(
-      `accessToken is type of ${typeof messageData.accessToken} instead of string`
+      `accessToken is type of ${typeof sendMessageOptions.accessToken} instead of string`
     );
   }
 
-  if (!messageData.userIdentifier) {
+  if (!sendMessageOptions.userIdentifier) {
     throw Error('userIdentifier is not defined!');
-  } else if (typeof messageData.userIdentifier !== 'string') {
+  } else if (typeof sendMessageOptions.userIdentifier !== 'string') {
     throw Error(
-      `userIdentifier is type of ${typeof messageData.userIdentifier} instead of string`
+      `userIdentifier is type of ${typeof sendMessageOptions.userIdentifier} instead of string`
     );
   }
-
-  return true;
 };
 
 export default {
-  validCallbackFunction,
+  validEnvironment,
   validLoginOptions,
-  validRefreshAuthTokenRequestI,
-  validMessageRequestI,
+  validRefreshAuthenticationTokenOptionsI,
+  validSendMessageOptionsI,
 };

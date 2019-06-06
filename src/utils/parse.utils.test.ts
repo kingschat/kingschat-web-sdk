@@ -12,14 +12,14 @@ describe('parsing utility', () => {
         12.34,
         0x123,
         Symbol('abc'),
-        new Error('123abc'),
+        Error('123abc'),
         function() {},
       ];
       definedTestData.forEach(item => {
         expect(() => {
           // @ts-ignore
           parseScopesArrayToString(item);
-        }).toThrowError(new Error(`scopes is type of ${typeof item} instead of Array`));
+        }).toThrowError(Error(`scopes is type of ${typeof item} instead of Array`));
       });
     });
 
@@ -29,7 +29,7 @@ describe('parsing utility', () => {
       notDefinedTestData.forEach(item => {
         expect(() => {
           parseScopesArrayToString(item);
-        }).toThrowError(new Error('scopes array is not defined!'));
+        }).toThrowError(Error('scopes array is not defined!'));
       });
     });
 
@@ -40,7 +40,7 @@ describe('parsing utility', () => {
         12,
         12.34,
         0x123,
-        new Error('123abc'),
+        Error('123abc'),
         function() {},
         null,
         undefined,
@@ -50,7 +50,7 @@ describe('parsing utility', () => {
         expect(() => {
           // @ts-ignore
           parseScopesArrayToString([item]);
-        }).toThrowError(new Error(`scope ${item}, at index 0 is not string!`));
+        }).toThrowError(Error(`scope ${item}, at index 0 is not string!`));
       });
     });
 

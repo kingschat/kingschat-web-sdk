@@ -8,7 +8,7 @@ describe('new window refreshAuthTokenOptions', () => {
   it("shouldn't runs when no window", () => {
     expect(() => {
       newWindowOptions();
-    }).toThrowError(new Error(`No window defined`));
+    }).toThrowError(Error(`No window defined`));
   });
   /* Behavior with Window available is not tested*/
 });

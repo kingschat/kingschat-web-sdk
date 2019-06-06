@@ -6,9 +6,10 @@ import {
   sendMessageOptionsI,
 } from './interfaces';
 import {
+  validEnvironment,
   validLoginOptions,
-  validRefreshAuthTokenRequestI,
-  validMessageRequestI,
+  validRefreshAuthenticationTokenOptionsI,
+  validSendMessageOptionsI,
 } from './utils/check.utils';
 import { loginWindow } from './utils/window.utils';
 import { refreshAuthTokenRequest } from './api/token.api';
@@ -25,6 +26,7 @@ export const login = (
   environment?: env
 ): Promise<authenticationTokenResponseI> => {
   try {
+    validEnvironment(environment);
     validLoginOptions(loginOptions);
     return loginWindow(new URL(authorizationURLs[environment || 'prod']), loginOptions);
   } catch (error) {
@@ -43,10 +45,11 @@ export const refreshAuthToken = (
   environment?: env
 ): Promise<authenticationTokenResponseI> => {
   try {
-    validRefreshAuthTokenRequestI(refreshAuthTokenOptions);
+    validEnvironment(environment);
+    validRefreshAuthenticationTokenOptionsI(refreshAuthTokenOptions);
     return refreshAuthTokenRequest({
       refreshAuthTokenOptions,
-      environment,
+      environment: environment || 'prod',
     });
   } catch (error) {
     return Promise.reject(error);
@@ -64,8 +67,12 @@ export const sendMessage = (
   environment?: env
 ): Promise<string> => {
   try {
-    validMessageRequestI(sendMessageOptions);
-    return messageRequest({ sendMessageOptions, environment });
+    validEnvironment(environment);
+    validSendMessageOptionsI(sendMessageOptions);
+    return messageRequest({
+      sendMessageOptions,
+      environment: environment || 'prod',
+    });
   } catch (error) {
     return Promise.reject(error);
   }
