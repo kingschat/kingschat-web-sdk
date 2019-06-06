@@ -1,5 +1,5 @@
 import { validCallbackFunction, validRefreshAuthTokenRequestI } from './check.utils';
-import { refreshAuthTokenRequestI } from '../interfaces';
+import { refreshAuthenticationTokenOptionsI } from '../interfaces';
 
 describe('valid callback as a function', () => {
   it('should return true for function', () => {
@@ -40,8 +40,8 @@ describe('valid callback as a function', () => {
   });
 });
 
-describe('valid refreshAuthTokenRequest as a refreshAuthTokenRequestI', () => {
-  const refreshAuthTokenRequest: refreshAuthTokenRequestI = {
+describe('valid refreshAuthTokenRequest as a refreshAuthenticationTokenOptionsI', () => {
+  const refreshAuthTokenRequest: refreshAuthenticationTokenOptionsI = {
     refreshToken: `GEA/fENK+cUC5ggLQNiLiIsovOo5OYaNSW/ss+6KyVo=`,
     clientId: 'a1234567-abcd-1234-abcd-12345abc1234',
   };

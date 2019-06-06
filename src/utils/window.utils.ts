@@ -1,5 +1,5 @@
 /* global window */
-import { authTokenResponseI, loginOptionsI, windowAreaI } from '../interfaces';
+import { authenticationTokenResponseI, loginOptionsI, windowAreaI } from '../interfaces';
 import { allowedResponseOrigins } from '../constants';
 import { parseScopesArrayToString } from './parse.utils';
 
@@ -33,7 +33,7 @@ function newWindowUrl({ myUrl, options }: { myUrl: URL; options: loginOptionsI }
 export const loginWindow = (
   myUrl: URL,
   options: loginOptionsI
-): Promise<authTokenResponseI> => {
+): Promise<authenticationTokenResponseI> => {
   const windowOptions: string = newWindowOptions();
   const windowURL: URL = newWindowUrl({ myUrl, options });
 
@@ -45,33 +45,35 @@ export const loginWindow = (
 
   // Listen to message from child window
   return new Promise((resolve, reject) => {
-    window.addEventListener(
-      'message',
-      ((msg: MessageEvent) => {
-        if (msg.source === window) {
-          /* Ignore self messages like setImmediate
-           * Messages from other windows won't have source for security reasons
-           */
-          return;
-        }
-        if (!allowedResponseOrigins.includes(msg.origin)) {
-          authWindow.close();
-          reject(new Error('Not allowed message origin'));
-        }
+    const listener = (msg: MessageEvent) => {
+      /* Ignore self messages like setImmediate - Messages from other windows won't have source for security reasons */
+      if (msg.source === window) {
+        return;
+      }
 
-        if (msg.data) {
-          authWindow.close();
-          if (msg.data.error) {
-            reject(new Error(msg.data.error));
-          } else {
-            resolve(msg.data);
-          }
+      if (!allowedResponseOrigins.includes(msg.origin)) {
+        authWindow.close();
+        reject(new Error('Not allowed message origin'));
+      }
+      if (msg.data) {
+        authWindow.close();
+        if (msg.data.error) {
+          reject(new Error(msg.data.error));
         } else {
-          reject(new Error('Bad Request'));
+          resolve(msg.data);
         }
-      }) as EventListener,
-      false
-    );
+      } else {
+        reject(new Error('Bad Request'));
+      }
+    };
+    window.addEventListener('message', listener as EventListener, false);
+    const interval = setInterval(() => {
+      if (!authWindow.window) {
+        window.removeEventListener('message', listener as EventListener, false);
+        clearInterval(interval);
+        throw Error('User closed window before allowing access');
+      }
+    }, 350);
   });
 };
 
